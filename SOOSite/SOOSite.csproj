@@ -124,7 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
-    <Content Include="app\controllers.js" />
     <Content Include="Index.html" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-animate.js" />
@@ -972,6 +971,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="app\controllers\" />
+    <Folder Include="app\modules\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
   <PropertyGroup>
