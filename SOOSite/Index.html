@@ -3,19 +3,27 @@
 <head>
     <title>Solar Odyssey Online</title>
     <meta charset="utf-8"/>
+    <base href="/"/>
 
     <link type="text/css" rel="stylesheet" href="Content/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="Content/ui-bootstrap-csp.css"/>
+    <link type="text/css" rel="stylesheet" href="Content/site.css"/>
 
     <script src="Scripts/jquery-2.1.4.min.js"></script>
     <script src="Scripts/angular.min.js"></script>
     <script src="Scripts/angular-route.min.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
+    <script src="Scripts/angular-ui/ui-bootstrap.min.js"></script>
     <script src="Scripts/jquery.signalR-2.2.0.min.js"></script>
     <script src="Scripts/angular-signalr-hub.min.js"></script>
     <script src="app/app.js"></script>
+    <script src="app/controllers/homeController.js"></script>
+    <script src="app/controllers/navbarController.js"></script>
 
 </head>
 <body>
+
+    <div ng-include src="'/app/partials/navbarPartial.html'"></div>
     <div ng-view></div>
 </body>
 </html>

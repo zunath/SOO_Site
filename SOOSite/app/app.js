@@ -1,12 +1,13 @@
-﻿var app = angular.module("sooApp", ["ngRoute"]);
+﻿var app = angular.module("sooApp", ["ngRoute", "ui.bootstrap"]);
 
 app.config([
-    "$routeProvider", function($routeProvider) {
+    "$routeProvider", function ($routeProvider) {
         $routeProvider.when("/", {
-            templateUrl: "/app/templates/Home.template.html",
-            controller: "/controllers/HomeController.js"
-        }).otherwise({
-                redirectTo: "/"
-            });
+            templateUrl: "/app/views/home.html",
+            controller: "homeController"
+        })
+        .otherwise({
+            redirectTo: "/"
+        });
     }
 ]);
