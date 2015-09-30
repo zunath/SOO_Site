@@ -1,25 +1,10 @@
-﻿
-
-<div ng-controller="navbarController">
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">Solar Odyssey Online</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#">
-                        Editors
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Factions</a></li>
-                        <li><a href="#">Key Items</a></li>
-                        <li><a href="#">Authorized DMs</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-</div>
+﻿<nav class="navbar navbar-inverse" role="navigation" bs-navbar>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">Brand</a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li data-match-route="/$"><a href="#/">Home</a></li>
+        <li data-match-route="/page-one"><a href="#/factions">Factions</a></li>
+        <li data-match-route="/page-two.*"><a href="#/keyitems">Key Items</a></li>
+    </ul>
+</nav>
