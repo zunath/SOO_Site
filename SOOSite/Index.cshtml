@@ -1,0 +1,22 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html ng-app="sooApp">
+<head>
+    <title>Solar Odyssey Online</title>
+    <meta charset="utf-8"/>
+    <base href="/"/>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/signalr")
+    @Scripts.Render("~/bundles/app")
+
+</head>
+<body>
+
+    <div ng-include src="'/app/partials/navbarPartial.html'"></div>
+    <div ng-view></div>
+</body>
+</html>

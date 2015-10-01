@@ -1,4 +1,5 @@
-﻿using Owin;
+﻿using System.Web.Optimization;
+using Owin;
 
 namespace SOOSite
 {
@@ -7,6 +8,7 @@ namespace SOOSite
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR();
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

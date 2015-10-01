@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Web.Optimization;
 using Autofac;
 using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
