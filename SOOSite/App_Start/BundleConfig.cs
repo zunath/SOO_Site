@@ -20,7 +20,7 @@ namespace SOOSite
                 .Include("~/Scripts/bootstrap.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular")
-                .Include("~/Scripts/angular.min.js",
+                .Include("~/Scripts/angular.js",
                          "~/Scripts/angular-route.min.js",
                          "~/Scripts/angular-strap.min.js",
                          "~/Scripts/angular-strap.tpl.min.js",
@@ -32,9 +32,11 @@ namespace SOOSite
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/app/app.js")
+                .IncludeDirectory("~/app/hubs", "*.js")
                 .IncludeDirectory("~/app/controllers", "*.js")
                 .IncludeDirectory("~/app/modules", "*.js")
-                .IncludeDirectory("~/app/services", "*.js"));
+                .IncludeDirectory("~/app/services", "*.js")
+                .IncludeDirectory("~/app/factories", "*.js"));
 
             BundleTable.EnableOptimizations = true;
         }

@@ -1,10 +1,37 @@
 ﻿<nav class="navbar navbar-inverse" role="navigation" bs-navbar>
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">Brand</a>
+        <a class="navbar-brand" ng-href="#/">Solar Odyssey Online</a>
     </div>
     <ul class="nav navbar-nav">
-        <li data-match-route="/$"><a href="#/">Home</a></li>
-        <li data-match-route="/page-one"><a href="#/factions">Factions</a></li>
-        <li data-match-route="/page-two.*"><a href="#/keyitems">Key Items</a></li>
+        <li><a ng-href="#/">Home</a></li>
+
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                Game Info <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a ng-href="#/areas">Areas</a></li>
+                <li><a ng-href="#/classes">Classes</a></li>
+                <li><a ng-href="#/story">Story</a></li>
+            </ul>
+        </li>
+
+        <li><a ng-href="#/serverInfo">Server Info</a></li>
+        
+        <li><a ng-href="#/screenshots">Screenshots</a></li>
+
+        <li><a ng-href="#/downloads">Downloads</a></li>
+
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                Editors <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a ng-href="#/craftrecipes">Craft Recipes</a></li>
+                <li><a ng-href="#/factions">Factions</a></li>
+                <li><a ng-href="#/keyitems">Key Items</a></li>
+                <li><a ng-href="#/authorizeddms">Authorized DMs</a></li>
+            </ul>
+        </li>
     </ul>
 </nav>
