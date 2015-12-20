@@ -15,7 +15,8 @@ namespace SOOSite.Common.Serialization
         {
             ExtensionMapper = new Dictionary<string, Type>
             {
-                {".uti", typeof (NWItem)}
+                {".uti", typeof (NWItem)},
+                {".utc", typeof(NWCreature)}
             };
         }
 
