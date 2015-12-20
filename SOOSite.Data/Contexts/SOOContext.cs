@@ -1,7 +1,8 @@
-namespace SOOSite.Data.Entities
-{
-    using System.Data.Entity;
+using System.Data.Entity;
+using SOOSite.Data.Entities;
 
+namespace SOOSite.Data.Contexts
+{
     public class SOOContext : DbContext
     {
         public SOOContext()
@@ -30,6 +31,10 @@ namespace SOOSite.Data.Entities
         public virtual DbSet<KeyItemCategory> KeyItemCategories { get; set; }
         public virtual DbSet<KeyItem> KeyItems { get; set; }
         public virtual DbSet<NPC> NPCs { get; set; }
+        public virtual DbSet<NWItem> NWItems { get; set; }
+        public virtual DbSet<NWItemProperty> NWItemProperties { get; set; }
+        public virtual DbSet<NWLanguagesDomain> NWLanguagesDomain { get; set; }
+        public virtual DbSet<NWLocalizedString> NWLocalizedStrings { get; set; }
         public virtual DbSet<PCAuthorizedCDKey> PCAuthorizedCDKeys { get; set; }
         public virtual DbSet<PCBlueprint> PCBlueprints { get; set; }
         public virtual DbSet<PCClass> PCClasses { get; set; }

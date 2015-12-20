@@ -72,6 +72,10 @@
     <Compile Include="Entities\KeyItem.cs" />
     <Compile Include="Entities\KeyItemCategory.cs" />
     <Compile Include="Entities\NPC.cs" />
+    <Compile Include="Entities\NWItem.cs" />
+    <Compile Include="Entities\NWItemProperty.cs" />
+    <Compile Include="Entities\NWLanguageDomain.cs" />
+    <Compile Include="Entities\NWLocalizedString.cs" />
     <Compile Include="Entities\PCAuthorizedCDKey.cs" />
     <Compile Include="Entities\PCBlueprint.cs" />
     <Compile Include="Entities\PCClass.cs" />
@@ -92,7 +96,7 @@
     <Compile Include="Entities\PWData.cs" />
     <Compile Include="Entities\PWObjData.cs" />
     <Compile Include="Entities\ServerConfiguration.cs" />
-    <Compile Include="Entities\SOOContext.cs" />
+    <Compile Include="Contexts\SOOContext.cs" />
     <Compile Include="Entities\StorageContainer.cs" />
     <Compile Include="Entities\StorageItem.cs" />
     <Compile Include="Entities\StructureBlueprint.cs" />

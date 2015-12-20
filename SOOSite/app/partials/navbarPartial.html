@@ -16,21 +16,35 @@
             </ul>
         </li>
 
-        <li><a ng-href="#/serverInfo">Server Info</a></li>
-        
-        <li><a ng-href="#/screenshots">Screenshots</a></li>
-
-        <li><a ng-href="#/downloads">Downloads</a></li>
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                Server Info <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a ng-href="#/screenshots">Screenshots</a></li>        
+                <li><a ng-href="#/downloads">Downloads</a></li>
+            </ul>
+        </li>
 
         <li>
             <a class="dropdown-toggle" data-toggle="dropdown">
-                Editors <span class="caret"></span>
+                Module Editors <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
+                <li><a ng-href="#/items">Creatures</a></li>
+                <li><a ng-href="#/items">Items</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                Data Editors <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a ng-href="#/authorizedDMs">Authorized DMs</a></li>
                 <li><a ng-href="#/craftRecipes">Craft Recipes</a></li>
                 <li><a ng-href="#/factions">Factions</a></li>
                 <li><a ng-href="#/keyItems">Key Items</a></li>
-                <li><a ng-href="#/authorizedDMs">Authorized DMs</a></li>
             </ul>
         </li>
     </ul>
