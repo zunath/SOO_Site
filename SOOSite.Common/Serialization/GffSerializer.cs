@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using SOOSite.Common.GffRawStructures;
@@ -8,18 +9,39 @@ namespace SOOSite.Common.Serialization
 {
     public static class GffSerializer
     {
-        public static T Deserialize<T>(string filePath)
-            where T : INWObject
+        private static Dictionary<string, Type> ExtensionMapper;
+
+        static GffSerializer()
+        {
+            ExtensionMapper = new Dictionary<string, Type>
+            {
+                {".uti", typeof (NWItem)}
+            };
+        }
+
+        public static INWObject Deserialize(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(Gff));
             string data = File.ReadAllText(filePath);
+            string extension = Path.GetExtension(filePath);
+            if (extension == ".xml")
+            {
+                extension = Path.GetExtension(filePath.Substring(0, filePath.Length - 4));
+            }
+            if (string.IsNullOrEmpty(extension) || 
+                !ExtensionMapper.ContainsKey(extension))
+            {
+                throw new ArgumentException("Invalid or unsupported file extension type.");
+            }
+
+
+            Type type = ExtensionMapper[extension];
 
             using (TextReader reader = new StringReader(data))
             {
                 Gff gff = (Gff)serializer.Deserialize(reader);
-                T instance = (T)Activator.CreateInstance(typeof(T));
-
-                return (T)instance.ToMappedObject(gff);
+                INWObject instance = (INWObject)Activator.CreateInstance(type);
+                return instance.ToMappedObject(gff);
             }
         }
 
