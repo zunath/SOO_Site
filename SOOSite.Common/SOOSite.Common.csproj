@@ -46,6 +46,7 @@
     <Compile Include="GffRawStructures\GffStruct.cs" />
     <Compile Include="NWObjects\CExoLocString.cs" />
     <Compile Include="NWObjects\INWObject.cs" />
+    <Compile Include="NWObjects\NWCreature.cs" />
     <Compile Include="NWObjects\NWItem.cs" />
     <Compile Include="NWObjects\NWItemProperty.cs" />
     <Compile Include="NWObjects\NWLocalizedString.cs" />
