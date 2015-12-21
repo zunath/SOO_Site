@@ -67,79 +67,80 @@ namespace SOOSite.Common.NWObjects
         public byte Str { get; set; }
         public string Subrace { get; set; }
         public string Tag { get; set; }
-        public bool Tail { get; set; }
+        public byte Tail { get; set; }
         public int WalkRate { get; set; }
         public short willbonus { get; set; }
-        public bool Wings { get; set; }
+        public byte Wings { get; set; }
 
         public INWObject ToMappedObject(Gff data)
         {
             NWCreature result = new NWCreature
             {
+                //TODO: create objects for lists
                 FileName = data.Name,
-                AppearanceType = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                BodyBag = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Cha = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                ChallengeRating = Convert.ToSingle(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
+                AppearanceType = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "Appearance_Type").Value),
+                BodyBag = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "BodyBag").Value),
+                Cha = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Cha").Value),
+                ChallengeRating = Convert.ToSingle(data.Struct.Elements.Single(x => x.Name == "ChallengeRating").Value),
                 ClassList
-                Con = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Conversation = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                CRAdjust = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "BaseItem").Value),
-                CurrentHitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                DecayTime = Convert.ToUInt32(data.Struct.Elements.Single(x => x.Name == "Cost").Value),
-                Diety = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                Description = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "DescIdentified")),
-                Dex = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Disarmable = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
+                Con = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Con").Value),
+                Conversation = data.Struct.Elements.Single(x => x.Name == "Conversation").Value,
+                CRAdjust = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "CRAdjust").Value),
+                CurrentHitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "CurrentHitPoints").Value),
+                DecayTime = Convert.ToUInt32(data.Struct.Elements.Single(x => x.Name == "DecayTime").Value),
+                Diety = data.Struct.Elements.Single(x => x.Name == "Deity").Value,
+                Description = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "Description")),
+                Dex = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Dex").Value),
+                Disarmable = data.Struct.Elements.Single(x => x.Name == "Disarmable").Value == "1",
                 EquipItemList
-                FactionID = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
+                FactionID = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "FactionID").Value),
                 FeatList
-                FirstName = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "DescIdentified")),
-                fortbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                Gender = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                GoodEvil = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                HitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                Int = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Interruptable = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
-                IsImmortal = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
-                IsPC = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
+                FirstName = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "FirstName")),
+                fortbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "fortbonus").Value),
+                Gender = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Gender").Value),
+                GoodEvil = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "GoodEvil").Value),
+                HitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "HitPoints").Value),
+                Int = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Int").Value),
+                Interruptable = data.Struct.Elements.Single(x => x.Name == "Interruptable").Value == "1",
+                IsImmortal = data.Struct.Elements.Single(x => x.Name == "IsImmortal").Value == "1",
+                IsPC = data.Struct.Elements.Single(x => x.Name == "IsPC").Value == "1",
                 ItemList
-                LastName = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "DescIdentified")),
-                LawfulChaotic = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Lootable = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
-                MaxHitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                NaturalAC = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                NoPermDeath = data.Struct.Elements.Single(x => x.Name == "Cursed").Value == "1",
-                PerceptionRange = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Phenotype = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "BaseItem").Value),
-                Plot = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                PortraitId = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                Race = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                refbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                ScriptAttacked = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptDamaged = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptDeath = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptDialogue = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptDisturbed = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScripEndRound = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptHeartbeat = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptOnBlocked = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptOnNotice = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptRested = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptSpawn = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptSpellAt = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                ScriptuserDefine = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
+                LastName = new CExoLocString(data.Struct.Elements.SingleOrDefault(x => x.Name == "LastName")),
+                LawfulChaotic = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "LawfulChaotic").Value),
+                Lootable = data.Struct.Elements.Single(x => x.Name == "Lootable").Value == "1",
+                MaxHitPoints = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "MaxHitPoints").Value),
+                NaturalAC = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "NaturalAC").Value),
+                NoPermDeath = data.Struct.Elements.Single(x => x.Name == "NoPermDeath").Value == "1",
+                PerceptionRange = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "PerceptionRange").Value),
+                Phenotype = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "Phenotype").Value),
+                Plot = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Plot").Value),
+                PortraitId = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "PortraitId").Value),
+                Race = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Race").Value),
+                refbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "refbonus").Value),
+                ScriptAttacked = data.Struct.Elements.Single(x => x.Name == "ScriptAttacked").Value,
+                ScriptDamaged = data.Struct.Elements.Single(x => x.Name == "ScriptDamaged").Value,
+                ScriptDeath = data.Struct.Elements.Single(x => x.Name == "ScriptDeath").Value,
+                ScriptDialogue = data.Struct.Elements.Single(x => x.Name == "ScriptDialogue").Value,
+                ScriptDisturbed = data.Struct.Elements.Single(x => x.Name == "ScriptDisturbed").Value,
+                ScripEndRound = data.Struct.Elements.Single(x => x.Name == "ScriptEndRound").Value,
+                ScriptHeartbeat = data.Struct.Elements.Single(x => x.Name == "ScriptHeartbeat").Value,
+                ScriptOnBlocked = data.Struct.Elements.Single(x => x.Name == "ScriptOnBlocked").Value,
+                ScriptOnNotice = data.Struct.Elements.Single(x => x.Name == "ScriptOnNotice").Value,
+                ScriptRested = data.Struct.Elements.Single(x => x.Name == "ScriptRested").Value,
+                ScriptSpawn = data.Struct.Elements.Single(x => x.Name == "ScriptSpawn").Value,
+                ScriptSpellAt = data.Struct.Elements.Single(x => x.Name == "ScriptSpellAt").Value,
+                ScriptuserDefine = data.Struct.Elements.Single(x => x.Name == "SciptuserDefine").Value,
                 SkillList
-                SoundSetFile = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
+                SoundSetFile = Convert.ToUInt16(data.Struct.Elements.Single(x => x.Name == "SoundSetFile").Value),
                 SpecAbilityList
-                StartingPackage = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Str = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                Subrace = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
+                StartingPackage = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "StartingPackage").Value),
+                Str = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Str").Value),
+                Subrace = data.Struct.Elements.Single(x => x.Name == "Subrace").Value,
                 Tag = data.Struct.Elements.Single(x => x.Name == "Tag").Value,
-                Tail = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value),
-                WalkRate = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "BaseItem").Value),
-                willbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "StackSize").Value),
-                Wings = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Charges").Value)
+                Tail = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Tail").Value),
+                WalkRate = Convert.ToInt32(data.Struct.Elements.Single(x => x.Name == "WalkRate").Value),
+                willbonus = Convert.ToInt16(data.Struct.Elements.Single(x => x.Name == "wilbonus").Value),
+                Wings = Convert.ToByte(data.Struct.Elements.Single(x => x.Name == "Wings").Value)
             };
             return result;
         }
