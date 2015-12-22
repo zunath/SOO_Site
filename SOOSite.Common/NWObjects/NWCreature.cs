@@ -34,7 +34,7 @@ namespace SOOSite.Common.NWObjects
         public bool Interruptable { get; set; }
         public bool IsImmortal { get; set; }
         public bool IsPC { get; set; }
-        public List<NWItem> ItemList { get; set; }
+        public List<NWItem> ItemList { get; set; } //todo: inventory object instead of nwitem?
         public CExoLocString LastName { get; set; }
         public byte LawfulChaotic { get; set; }
         public bool Lootable { get; set; }
