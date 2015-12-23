@@ -1,6 +1,8 @@
-﻿using SOOSite.Interfaces.Repositories;
+﻿using SOOSite.Data.Entities;
+using SOOSite.Interfaces.Repositories;
 using SOOSite.Interfaces.Services;
 using SOOSite.Models.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SOOSite.Services
@@ -18,11 +20,16 @@ namespace SOOSite.Services
         {
             AuthorizedDMVM vm = new AuthorizedDMVM
             {
-                AuthorizedDMs = _repo.GetActiveAuthorizedDMs().ToList(),
+                AuthorizedDMs = _repo.GetAuthorizedDMs().ToList(),
                 AvailableRoles = _repo.GetActiveDMRoles().ToList()
             };
 
             return vm;
+        }
+
+        public IEnumerable<AuthorizedDM> SaveChanges(IEnumerable<AuthorizedDM> dms)
+        {
+            return _repo.SaveChanges(dms);
         }
     }
 }

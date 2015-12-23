@@ -1,13 +1,14 @@
 ﻿app.factory('authorizedDMFactory', ['$rootScope', 'Hub', '$q', function ($rootScope, Hub, $q) {
-    var factory = this;
     var hub;
+    var factory = this;
+    var viewModel;
     var deferred = $q.defer();
 
     factory.initialize = function(callback) {
 
         hub = new Hub('AuthorizedDMHub', {
 
-            methods: ['initializeVM'],
+            methods: ['initializeVM', 'saveChanges'],
             errorHandler: function (error) {
                 alert('error: ' + error);
             },
@@ -20,7 +21,8 @@
 
         hub.promise.done(function () {
             hub.initializeVM().done(function (data) {
-                callback(data);
+                viewModel = data;
+                callback(viewModel);
                 deferred.resolve(hub);
             });
         });
@@ -29,13 +31,21 @@
     }
 
     factory.addNew = function () {
+        var existing = viewModel.AuthorizedDMs[viewModel.AuthorizedDMs.length - 1];
 
-        factory.AuthorizedDMs.push({
+        if (!existing.Name || !existing.CDKey) return;
+
+        viewModel.AuthorizedDMs.push({
             AuthorizedDMID: 0,
+            Name: '',
             CDKey: '',
-            DMRole: 0,
+            DMRole: 1,
             IsActive: true
         });
+    }
+
+    factory.saveChanges = function () {
+        hub.saveChanges(viewModel.AuthorizedDMs);
     }
 
     return factory;

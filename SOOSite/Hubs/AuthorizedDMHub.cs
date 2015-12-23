@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.SignalR;
+using SOOSite.Data.Entities;
 using SOOSite.Interfaces.Services;
 using SOOSite.Models.ViewModels;
+using System.Collections.Generic;
 
 namespace SOOSite.Hubs
 {
@@ -18,5 +20,11 @@ namespace SOOSite.Hubs
             return _authDMService.CreateAuthorizedDMViewModel();
         }
 
+        public void SaveChanges(IEnumerable<AuthorizedDM> dms)
+        {
+            dms = _authDMService.SaveChanges(dms);
+
+            Clients.All.refreshDMList(dms);
+        }
     }
 }

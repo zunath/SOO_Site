@@ -5,7 +5,8 @@ namespace SOOSite.Interfaces.Repositories
 {
     public interface IAuthorizedDMRepository
     {
-        IEnumerable<AuthorizedDM> GetActiveAuthorizedDMs();
+        IEnumerable<AuthorizedDM> GetAuthorizedDMs();
         IEnumerable<DMRoleDomain> GetActiveDMRoles();
+        IEnumerable<AuthorizedDM> SaveChanges(IEnumerable<AuthorizedDM> dms);
     }
 }

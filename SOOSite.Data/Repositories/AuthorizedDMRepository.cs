@@ -3,7 +3,7 @@ using SOOSite.Data.Entities;
 using SOOSite.Interfaces.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using System.Data.Entity.Migrations;
 
 namespace SOOSite.Data.Repositories
 {
@@ -16,14 +16,22 @@ namespace SOOSite.Data.Repositories
             _context = context;
         }
 
-        public IEnumerable<AuthorizedDM> GetActiveAuthorizedDMs()
+        public IEnumerable<AuthorizedDM> GetAuthorizedDMs()
         {
-            return _context.AuthorizedDMs.Where(x => x.IsActive);
+            return _context.AuthorizedDMs.ToList();
         }
 
         public IEnumerable<DMRoleDomain> GetActiveDMRoles()
         {
             return _context.DMRoleDomains.ToList();
+        }
+
+        public IEnumerable<AuthorizedDM> SaveChanges(IEnumerable<AuthorizedDM> dms)
+        {
+            _context.AuthorizedDMs.AddOrUpdate(dms.ToArray());
+            _context.SaveChanges();
+
+            return dms;
         }
     }
 }

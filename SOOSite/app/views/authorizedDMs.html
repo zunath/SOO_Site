@@ -71,10 +71,8 @@
                                maxlength="20" />
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control">
-                            <option ng-repeat="role in viewModel.AvailableRoles">
-                                {{role.Description}}
-                            </option>
+                        <select ng-model="dm.DMRole" class="form-control" 
+                                ng-options="role.DMRoleDomainID as role.Description for role in viewModel.AvailableRoles">
                         </select>
                     </div>
                     <div class="col-md-1">
@@ -102,7 +100,8 @@
                 <div class="col-md-3 col-md-offset-5">
                     <input type="button" 
                            class="btn btn-primary" 
-                           value="Save Changes" />
+                           value="Save Changes"
+                           ng-click="saveChanges();" />
                 </div>
             </div>
 
