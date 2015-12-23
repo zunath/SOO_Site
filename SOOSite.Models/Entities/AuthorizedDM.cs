@@ -4,6 +4,7 @@ namespace SOOSite.Data.Entities
 
     public class AuthorizedDM
     {
+        [Key]
         public int AuthorizedDMID { get; set; }
 
         [Required]

@@ -1,2 +1,76 @@
-﻿auth dms
+﻿
+<div class="row">
+    <div class="col-md-7 col-md-offset-3">
+
+        <p>
+            The following lists users who are authorized to log in as a DM.
+        </p>
+    </div>
+</div>
+
+<div class="row">
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h4>
+                        <b>DM / Admin List</b>
+                    </h4>
+                </div>
+            </div>
+            
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1">
+                    Name
+                </div>
+                <div class="col-md-3">
+                    CD Key
+                </div>
+                <div class="col-md-3">
+                    DM Role
+                </div>
+                <div class="col-md-1">
+                    Is Active
+                </div>
+            </div>
+
+            <div ng-repeat="dm in viewModel.AuthorizedDMs">
+
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-1">
+                        <input type="text" class="form-control" ng-model="dm.Name" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text"
+                               class="form-control"
+                               ng-model="dm.CDKey"
+                               maxlength="20" />
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control">
+                            <option ng-repeat="role in viewModel.AvailableRoles">
+                                {{role.Description}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+
+        </div>
+    </div>
+</div>
+
 

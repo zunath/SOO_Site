@@ -51,62 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\AuthorizedDM.cs" />
-    <Compile Include="Entities\BaseItemType.cs" />
-    <Compile Include="Entities\BuildPrivacyDomain.cs" />
-    <Compile Include="Entities\CharacterClass.cs" />
-    <Compile Include="Entities\ClassAbility.cs" />
-    <Compile Include="Entities\ClassFeatLevel.cs" />
-    <Compile Include="Entities\ClassLevel.cs" />
-    <Compile Include="Entities\ClassStat.cs" />
-    <Compile Include="Entities\ConstructionSite.cs" />
-    <Compile Include="Entities\Craft.cs" />
-    <Compile Include="Entities\CraftBlueprint.cs" />
-    <Compile Include="Entities\CraftBlueprintCategory.cs" />
-    <Compile Include="Entities\CraftBlueprintComponent.cs" />
-    <Compile Include="Entities\CraftLevel.cs" />
-    <Compile Include="Entities\DMRoleDomain.cs" />
-    <Compile Include="Entities\Faction.cs" />
-    <Compile Include="Entities\FactionRelationship.cs" />
-    <Compile Include="Entities\FactionRelationshipType.cs" />
-    <Compile Include="Entities\KeyItem.cs" />
-    <Compile Include="Entities\KeyItemCategory.cs" />
-    <Compile Include="Entities\NPC.cs" />
-    <Compile Include="Entities\NWItem.cs" />
-    <Compile Include="Entities\NWItemProperty.cs" />
-    <Compile Include="Entities\NWLanguageDomain.cs" />
-    <Compile Include="Entities\NWLocalizedString.cs" />
-    <Compile Include="Entities\PCAuthorizedCDKey.cs" />
-    <Compile Include="Entities\PCBlueprint.cs" />
-    <Compile Include="Entities\PCClass.cs" />
-    <Compile Include="Entities\PCCraft.cs" />
-    <Compile Include="Entities\PCFactionReputation.cs" />
-    <Compile Include="Entities\PCKeyItem.cs" />
-    <Compile Include="Entities\PCMigration.cs" />
-    <Compile Include="Entities\PCMigrationItem.cs" />
-    <Compile Include="Entities\PCOutfit.cs" />
-    <Compile Include="Entities\PCOverflowItem.cs" />
-    <Compile Include="Entities\PCSystemVersion.cs" />
-    <Compile Include="Entities\PCTerritoryFlag.cs" />
-    <Compile Include="Entities\PCTerritoryFlagsPermission.cs" />
-    <Compile Include="Entities\PCTerritoryFlagsStructure.cs" />
-    <Compile Include="Entities\PCTerritoryFlagsStructuresItem.cs" />
-    <Compile Include="Entities\PlayerCharacter.cs" />
-    <Compile Include="Entities\Portrait.cs" />
-    <Compile Include="Entities\PWData.cs" />
-    <Compile Include="Entities\PWObjData.cs" />
-    <Compile Include="Entities\ServerConfiguration.cs" />
     <Compile Include="Contexts\SOOContext.cs" />
-    <Compile Include="Entities\StorageContainer.cs" />
-    <Compile Include="Entities\StorageItem.cs" />
-    <Compile Include="Entities\StructureBlueprint.cs" />
-    <Compile Include="Entities\StructureCategory.cs" />
-    <Compile Include="Entities\TerritoryFlagPermission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AuthorizedDMRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Database\SolarOdyssey.bak" />
@@ -116,6 +65,10 @@
     <ProjectReference Include="..\SOOSite.Interfaces\SOOSite.Interfaces.csproj">
       <Project>{A4AECD76-73B7-45D4-A640-92C0DD67EFC9}</Project>
       <Name>SOOSite.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SOOSite.Models\SOOSite.Models.csproj">
+      <Project>{21ca0dbc-fe8a-44a2-99c3-4688e13976e0}</Project>
+      <Name>SOOSite.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

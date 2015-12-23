@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using System.Web.Optimization;
-using Autofac;
-using Autofac.Integration.SignalR;
-using Microsoft.AspNet.SignalR;
 
 namespace SOOSite
 {
@@ -11,9 +6,7 @@ namespace SOOSite
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            ContainerBuilder builder = new ContainerBuilder();
-            builder.RegisterHubs(Assembly.GetExecutingAssembly());
-            GlobalHost.DependencyResolver = new AutofacDependencyResolver(builder.Build());
+            IOCContainer.Build();
         }
     }
 }

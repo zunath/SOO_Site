@@ -6,7 +6,7 @@ namespace SOOSite.Data.Contexts
     public class SOOContext : DbContext
     {
         public SOOContext()
-            : base("name=SOOEntities")
+            : base("name=SOOContext")
         {
         }
 

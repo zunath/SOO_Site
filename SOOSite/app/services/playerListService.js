@@ -2,10 +2,9 @@
     var hub = new Hub('ChatHub', {
         
         methods: ['sendMessage'],
-        errorHandler: function(error) {
+        errorHandler: function (error) {
             alert('error: ' + error);
         }
-
     });
 
     var sendMessage = function(message) {

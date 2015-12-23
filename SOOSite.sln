@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOOSite", "SOOSite\SOOSite.csproj", "{7A1DE0B7-E8F8-4905-8913-FB2AD7D875B7}"
 EndProject
@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Services", "2. Services"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Data", "3. Data", "{48D3F1C3-00B4-4090-B172-308AA3FA7DE7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Models", "4. Models", "{2CE8E6D5-13CC-4E48-9618-674828964AB5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Models", "5. Models", "{2CE8E6D5-13CC-4E48-9618-674828964AB5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Interfaces", "5. Interfaces", "{91B5BFFB-C0BD-4991-AA3F-776E4D426BD2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Interfaces", "4. Interfaces", "{91B5BFFB-C0BD-4991-AA3F-776E4D426BD2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Common", "6. Common", "{2EBEB984-6D0B-4AF4-BFAE-AE308D9493D9}"
 EndProject

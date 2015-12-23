@@ -28,7 +28,7 @@ namespace SOOSite
 
             bundles.Add(new ScriptBundle("~/bundles/signalr")
                 .Include("~/Scripts/jquery.signalR-{version}.js")
-                .Include("~/Scripts/angular-signalr-hub.min.js"));
+                .Include("~/Scripts/angular-signalr.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app")
                 .Include("~/app/app.js")

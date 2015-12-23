@@ -179,7 +179,9 @@
     <Content Include="app\controllers\screenshotsController.js" />
     <Content Include="app\controllers\serverInfoController.js" />
     <Content Include="app\controllers\storyController.js" />
+    <Content Include="app\partials\chatPanelPartial.html" />
     <Content Include="app\partials\footerPartial.html" />
+    <Content Include="app\factories\authorizedDMFactory.js" />
     <Content Include="app\services\playerListService.js" />
     <Content Include="app\views\areas.html" />
     <Content Include="app\views\authorizedDMs.html" />
@@ -233,8 +235,7 @@
     <Content Include="Scripts\angular-sanitize.js" />
     <Content Include="Scripts\angular-sanitize.min.js" />
     <Content Include="Scripts\angular-scenario.js" />
-    <Content Include="Scripts\angular-signalr-hub.js" />
-    <Content Include="Scripts\angular-signalr-hub.min.js" />
+    <Content Include="Scripts\angular-signalr.js" />
     <Content Include="Scripts\angular-strap.js" />
     <Content Include="Scripts\angular-strap.min.js" />
     <Content Include="Scripts\angular-strap.tpl.js" />
@@ -1031,7 +1032,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\AuthorizedDMHub.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="IOCContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>
@@ -1058,7 +1061,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\factories\" />
     <Folder Include="app\hubs\" />
     <Folder Include="app\modules\" />
     <Folder Include="Controllers\" />
