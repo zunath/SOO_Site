@@ -7,6 +7,20 @@
     factory.initialize = function(callback) {
 
         hub = new Hub('AuthorizedDMHub', {
+            listeners: {
+                'refreshDMList': function (dmList) {
+                    var uncommitted = $.grep(viewModel.AuthorizedDMs, function (e) {
+                        return e.AuthorizedDMID == 0;
+                    })
+                    viewModel.AuthorizedDMs = dmList;
+                    if (!uncommitted) {
+                        alert(JSON.stringify(uncommitted));
+                        viewModel.AuthorizedDMs.push(uncommitted);
+                    }
+                    
+                    $rootScope.$apply();
+                }
+            },
 
             methods: ['initializeVM', 'saveChanges'],
             errorHandler: function (error) {
