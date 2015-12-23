@@ -52,10 +52,13 @@
     }
 
     factory.addNew = function () {
-        var existing = viewModel.AuthorizedDMs[viewModel.AuthorizedDMs.length - 1];
 
-        if (!existing.Name || !existing.CDKey) return;
+        if (viewModel.AuthorizedDMs.length > 0) {
+            var existing = viewModel.AuthorizedDMs[viewModel.AuthorizedDMs.length - 1];
 
+            if (!existing.Name || !existing.CDKey) return;
+        }
+        
         viewModel.AuthorizedDMs.push({
             AuthorizedDMID: 0,
             Name: '',
