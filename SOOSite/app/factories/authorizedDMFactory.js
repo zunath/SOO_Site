@@ -3,7 +3,7 @@
     var hub;
     var deferred = $q.defer();
 
-    factory.Initialize = function(callback) {
+    factory.initialize = function(callback) {
 
         hub = new Hub('AuthorizedDMHub', {
 
@@ -26,6 +26,16 @@
         });
 
         return deferred.promise;
+    }
+
+    factory.addNew = function () {
+
+        factory.AuthorizedDMs.push({
+            AuthorizedDMID: 0,
+            CDKey: '',
+            DMRole: 0,
+            IsActive: true
+        });
     }
 
     return factory;

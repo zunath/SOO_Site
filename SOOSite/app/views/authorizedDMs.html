@@ -1,14 +1,4 @@
-﻿
-<div class="row">
-    <div class="col-md-7 col-md-offset-3">
-
-        <p>
-            The following lists users who are authorized to log in as a DM.
-        </p>
-    </div>
-</div>
-
-<div class="row">
+﻿<div class="row">
 
 
     <div class="panel panel-default">
@@ -26,7 +16,25 @@
         <div class="panel-body">
 
             <div class="row">
-                <div class="col-md-3 col-md-offset-1">
+                <div class="col-md-6 col-md-offset-4">
+
+                    <p>
+                        The following lists users who are authorized to log in as a DM.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">&nbsp;</div>
+
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="row">
+                        <div class="col-md-1 col-md-offset-3">
+                            ID
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     Name
                 </div>
                 <div class="col-md-3">
@@ -40,10 +48,20 @@
                 </div>
             </div>
 
+            <div class="row">&nbsp;</div>
+
             <div ng-repeat="dm in viewModel.AuthorizedDMs">
 
                 <div class="row">
-                    <div class="col-md-3 col-md-offset-1">
+                    <div class="col-md-1">
+                        <div class="row">
+                            <div class="col-md-1 col-md-offset-3">
+                                {{dm.AuthorizedDMID}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
                         <input type="text" class="form-control" ng-model="dm.Name" />
                     </div>
                     <div class="col-md-3">
@@ -61,11 +79,33 @@
                     </div>
                     <div class="col-md-1">
                         <label class="checkbox-inline">
-                            <input type="checkbox" />
+                            <input type="checkbox" ng-model="dm.IsActive" />
                         </label>
                     </div>
                 </div>
             </div>
+
+            <div class="row">&nbsp;</div>
+
+            <div class="row">
+                <div class="col-md-3 col-md-offset-9">
+                    <input type="button" 
+                           class="btn btn-primary" 
+                           value="Add New"
+                           ng-click="addNew();" />
+                </div>
+            </div>
+
+            <div class="row">&nbsp;</div>
+
+            <div class="row">
+                <div class="col-md-3 col-md-offset-5">
+                    <input type="button" 
+                           class="btn btn-primary" 
+                           value="Save Changes" />
+                </div>
+            </div>
+
         </div>
         <div class="panel-footer">
 
