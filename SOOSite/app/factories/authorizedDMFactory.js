@@ -8,16 +8,23 @@
 
         hub = new Hub('AuthorizedDMHub', {
             listeners: {
-                'refreshDMList': function (dmList) {
-                    var uncommitted = $.grep(viewModel.AuthorizedDMs, function (e) {
-                        return e.AuthorizedDMID == 0;
-                    })
-                    viewModel.AuthorizedDMs = dmList;
-                    if (!uncommitted) {
-                        alert(JSON.stringify(uncommitted));
-                        viewModel.AuthorizedDMs.push(uncommitted);
+                'refreshDMList': function (dmList, totalRefresh) {
+                    var uncommitted = [];
+
+                    if (!totalRefresh) {
+                        $(viewModel.AuthorizedDMs).each(function (index, value) {
+                            if (value.AuthorizedDMID == 0) {
+                                uncommitted.push(value);
+                            }
+                        });
                     }
-                    
+
+                    viewModel.AuthorizedDMs = dmList;
+
+                    $(uncommitted).each(function (index, value) {
+                        viewModel.AuthorizedDMs.push(value);
+                    });
+                                        
                     $rootScope.$apply();
                 }
             },

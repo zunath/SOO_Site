@@ -24,7 +24,8 @@ namespace SOOSite.Hubs
         {
             dms = _authDMService.SaveChanges(dms);
 
-            Clients.All.refreshDMList(dms);
+            Clients.Others.refreshDMList(dms, false);
+            Clients.Caller.refreshDMList(dms, true);
         }
     }
 }
