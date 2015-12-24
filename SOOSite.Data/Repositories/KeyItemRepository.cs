@@ -27,12 +27,15 @@ namespace SOOSite.Data.Repositories
             return _context.KeyItems;
         }
 
-        public void SaveChanges(IEnumerable<KeyItemCategory> categories, IEnumerable<KeyItem> items)
+        public Tuple<IEnumerable<KeyItemCategory>, IEnumerable<KeyItem>> 
+            SaveChanges(IEnumerable<KeyItemCategory> categories, IEnumerable<KeyItem> items)
         {
             _context.KeyItemCategories.AddOrUpdate(categories.ToArray());
             _context.KeyItems.AddOrUpdate(items.ToArray());
 
             _context.SaveChanges();
+
+            return new Tuple<IEnumerable<KeyItemCategory>, IEnumerable<KeyItem>>(GetKeyItemCategories(), GetKeyItems());
         }
     }
 }

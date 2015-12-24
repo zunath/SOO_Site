@@ -10,7 +10,35 @@
                 hub = new Hub('KeyItemHub', {
                     listeners: {
                         'refreshModel': function (categories, keyItems, fullRefresh) {
+                            var uncommittedKeyItems = [];
+                            var uncommittedCategories = [];
 
+                            if (!fullRefresh) {
+                                $(viewModel.KeyItemCategories).each(function (index, value) {
+                                    if (value.KeyItemCategoryID == 0) {
+                                        uncommittedCategories.push(value);
+                                    }
+                                });
+
+                                $(viewModel.KeyItems).each(function (index, value) {
+                                    if (value.KeyItemID == 0) {
+                                        uncommittedKeyItems.push(value);
+                                    }
+                                });
+                            }
+
+                            viewModel.KeyItemCategories = categories;
+                            viewModel.KeyItems = keyItems;
+
+                            $(uncommittedCategories).each(function (index, value) {
+                                viewModel.KeyItemCategories.push(value);
+                            });
+
+                            $(uncommittedKeyItems).each(function (index, value) {
+                                viewModel.KeyItems.push(value);
+                            });
+
+                            $rootScope.$apply();
                         }
                     },
                     methods: ['initializeVM', 'saveChanges'],

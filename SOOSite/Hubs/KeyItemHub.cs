@@ -23,7 +23,9 @@ namespace SOOSite.Hubs
         public void SaveChanges(IEnumerable<KeyItemCategoryBO> categories, 
             IEnumerable<KeyItemBO> keyItems)
         {
-            _service.SaveChanges(categories, keyItems);
+            var results = _service.SaveChanges(categories, keyItems);
+            categories = results.Item1;
+            keyItems = results.Item2;
 
             Clients.Others.refreshModel(categories, keyItems, false);
             Clients.Caller.refreshModel(categories, keyItems, true);

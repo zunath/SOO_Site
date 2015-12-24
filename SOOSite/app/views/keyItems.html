@@ -14,10 +14,10 @@
             <div class="row">&nbsp;</div>
 
             <uib-tabset>
-                <uib-tab ng-repeat="category in viewModel.KeyItemCategories" 
+                <uib-tab ng-repeat="category in viewModel.KeyItemCategories"
                          heading="{{category.Name}}"
                          ng-click="changeTab(category.KeyItemCategoryID)">
-                    
+
                     <div class="row">&nbsp;</div>
 
                     <div class="row">
@@ -39,8 +39,8 @@
 
 
                     <div class="row">&nbsp;</div>
-                    <div ng-repeat="keyitem in viewModel.KeyItems">
-                        <div class="row" ng-show="keyitem.KeyItemCategoryID == category.KeyItemCategoryID">
+                    <div ng-repeat="keyitem in viewModel.KeyItems | filter:{ KeyItemCategoryID: category.KeyItemCategoryID}">
+                        <div class="row">
                             <div class="col-md-1">
                                 <div class="col-md-1 col-md-offset-3">
                                     {{keyitem.KeyItemID}}
@@ -56,8 +56,7 @@
                             </div>
                             <div class="col-md-2">
                                 <select class="form-control"
-                                        ng-model="keyitem.KeyItemCategoryID" ng-options="category.KeyItemCategoryID as category.Name for category in viewModel.KeyItemCategories">
-                                </select>
+                                        ng-model="keyitem.KeyItemCategoryID" ng-options="category.KeyItemCategoryID as category.Name for category in viewModel.KeyItemCategories"></select>
                             </div>
                         </div>
                         <div class="row">&nbsp;</div>
@@ -84,12 +83,8 @@
                                    ng-click="saveChanges();" />
                         </div>
                     </div>
-
-
                 </uib-tab>
             </uib-tabset>
-
-
-
+        </div>
     </div>
 </div>

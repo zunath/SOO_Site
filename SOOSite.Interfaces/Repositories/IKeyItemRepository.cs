@@ -1,4 +1,5 @@
 ﻿using SOOSite.Data.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace SOOSite.Interfaces.Repositories
@@ -7,6 +8,7 @@ namespace SOOSite.Interfaces.Repositories
     {
         IEnumerable<KeyItem> GetKeyItems();
         IEnumerable<KeyItemCategory> GetKeyItemCategories();
-        void SaveChanges(IEnumerable<KeyItemCategory> categories, IEnumerable<KeyItem> items);
+        Tuple<IEnumerable<KeyItemCategory>, IEnumerable<KeyItem>>
+            SaveChanges(IEnumerable<KeyItemCategory> categories, IEnumerable<KeyItem> items);
     }
 }

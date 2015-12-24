@@ -5,6 +5,7 @@ using SOOSite.Interfaces.Services;
 using SOOSite.Models.ViewModels;
 using System.Linq;
 using SOOSite.Models.BusinessObjects;
+using System;
 
 namespace SOOSite.Services
 {
@@ -20,23 +21,11 @@ namespace SOOSite.Services
         public KeyItemVM CreateKeyItemViewModel()
         {
             List<KeyItemCategoryBO> categories = _repo.GetKeyItemCategories()
-                                        .Select(s => new KeyItemCategoryBO()
-                                        {
-                                            IsActive = s.IsActive,
-                                            Name = s.Name,
-                                            KeyItemCategoryID = s.KeyItemCategoryID
-                                        }).ToList();
+                                        .Select(s => KeyItemCategoryBO.FromEntity(s)).ToList();
 
             KeyItemVM vm = new KeyItemVM
             {
-                KeyItems = _repo.GetKeyItems()
-                                .Select(s => new KeyItemBO()
-                                {
-                                    Description = s.Description,
-                                    KeyItemCategoryID = s.KeyItemCategoryID,
-                                    Name = s.Name,
-                                    KeyItemID = s.KeyItemID
-                                }),
+                KeyItems = _repo.GetKeyItems().Select(s => KeyItemBO.FromEntity(s)),
                 KeyItemCategories = categories
             };
             vm.ActiveKeyItemCategoryID = categories[0].KeyItemCategoryID;
@@ -44,22 +33,17 @@ namespace SOOSite.Services
             return vm;
         }
 
-        public void SaveChanges(IEnumerable<KeyItemCategoryBO> categories, IEnumerable<KeyItemBO> keyItems)
+        public Tuple<IEnumerable<KeyItemCategoryBO>, IEnumerable<KeyItemBO>> 
+            SaveChanges(IEnumerable<KeyItemCategoryBO> categories, IEnumerable<KeyItemBO> keyItems)
         {
-            _repo.SaveChanges(
-                categories.Select(s => new KeyItemCategory()
-                {
-                    IsActive = s.IsActive,
-                    KeyItemCategoryID = s.KeyItemCategoryID,
-                    Name = s.Name
-                }),
-                keyItems.Select(s => new KeyItem()
-                {
-                    Description = s.Description,
-                    KeyItemCategoryID = s.KeyItemCategoryID,
-                    KeyItemID = s.KeyItemID,
-                    Name = s.Name
-                }));
+            var results = _repo.SaveChanges(
+                categories.Select(s => s.ToEntity()),
+                keyItems.Select(s => s.ToEntity()));
+
+            return new Tuple<IEnumerable<KeyItemCategoryBO>, IEnumerable<KeyItemBO>>(
+                    results.Item1.Select(s => KeyItemCategoryBO.FromEntity(s)),
+                    results.Item2.Select(s => KeyItemBO.FromEntity(s))
+                );
         }
     }
 }
