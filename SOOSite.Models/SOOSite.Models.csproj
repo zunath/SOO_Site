@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessObjects\KeyItemBO.cs" />
+    <Compile Include="BusinessObjects\KeyItemCategoryBO.cs" />
     <Compile Include="Entities\AuthorizedDM.cs" />
     <Compile Include="Entities\BaseItemType.cs" />
     <Compile Include="Entities\BuildPrivacyDomain.cs" />
@@ -101,14 +103,13 @@
     <Compile Include="Entities\TerritoryFlagPermission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AuthorizedDMVM.cs" />
+    <Compile Include="ViewModels\KeyItemVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BusinessObjects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -179,6 +179,7 @@
     <Content Include="app\controllers\screenshotsController.js" />
     <Content Include="app\controllers\serverInfoController.js" />
     <Content Include="app\controllers\storyController.js" />
+    <Content Include="app\factories\keyItemsFactory.js" />
     <Content Include="app\partials\chatPanelPartial.html" />
     <Content Include="app\partials\footerPartial.html" />
     <Content Include="app\factories\authorizedDMFactory.js" />
@@ -212,7 +213,6 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Index.cshtml" />
-    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="packages.config" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -242,10 +242,6 @@
     <Content Include="Scripts\angular-strap.tpl.min.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
-    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -996,6 +992,7 @@
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Scripts\angular-strap.min.js.map" />
+    <Content Include="Scripts\ui-bootstrap-tpls-0.14.3.min.js" />
     <Content Include="Scripts\version.json" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
@@ -1034,7 +1031,8 @@
     </Compile>
     <Compile Include="Hubs\AuthorizedDMHub.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="IOCContainer.cs" />
+    <Compile Include="Hubs\KeyItemHub.cs" />
+    <Compile Include="App_Start\IOCContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>

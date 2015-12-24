@@ -14,7 +14,7 @@ namespace SOOSite.Data.Entities
             PCKeyItems = new HashSet<PCKeyItem>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int KeyItemID { get; set; }
 
         public int KeyItemCategoryID { get; set; }

@@ -54,6 +54,7 @@
     <Compile Include="Contexts\SOOContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AuthorizedDMRepository.cs" />
+    <Compile Include="Repositories\KeyItemRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

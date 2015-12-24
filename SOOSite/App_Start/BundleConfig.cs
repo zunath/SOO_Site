@@ -24,7 +24,7 @@ namespace SOOSite
                          "~/Scripts/angular-route.min.js",
                          "~/Scripts/angular-strap.min.js",
                          "~/Scripts/angular-strap.tpl.min.js",
-                         "~/Scripts/angular-ui/ui-bootstrap.min.js"));
+                         "~/Scripts/ui-bootstrap-tpls-0.14.3.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/signalr")
                 .Include("~/Scripts/jquery.signalR-{version}.js")

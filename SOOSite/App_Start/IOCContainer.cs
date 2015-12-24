@@ -20,10 +20,11 @@ namespace SOOSite
 
             // Repositories
             builder.RegisterType<AuthorizedDMRepository>().As<IAuthorizedDMRepository>();
-
+            builder.RegisterType<KeyItemRepository>().As<IKeyItemRepository>();
 
             // Services
             builder.RegisterType<AuthorizedDMService>().As<IAuthorizedDMService>();
+            builder.RegisterType<KeyItemService>().As<IKeyItemService>();
 
             GlobalHost.DependencyResolver = new AutofacDependencyResolver(builder.Build());
         }

@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IAuthorizedDMRepository.cs" />
+    <Compile Include="Repositories\IKeyItemRepository.cs" />
     <Compile Include="Services\IAuthorizedDMService.cs" />
+    <Compile Include="Services\IKeyItemService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
