@@ -183,7 +183,6 @@
     <Content Include="app\partials\chatPanelPartial.html" />
     <Content Include="app\partials\footerPartial.html" />
     <Content Include="app\factories\authorizedDMFactory.js" />
-    <Content Include="app\services\playerListService.js" />
     <Content Include="app\views\areas.html" />
     <Content Include="app\views\authorizedDMs.html" />
     <Content Include="app\views\classes.html" />
@@ -1030,7 +1029,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\AuthorizedDMHub.cs" />
-    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\KeyItemHub.cs" />
     <Compile Include="App_Start\IOCContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1061,6 +1059,7 @@
   <ItemGroup>
     <Folder Include="app\hubs\" />
     <Folder Include="app\modules\" />
+    <Folder Include="app\services\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
   <PropertyGroup>
