@@ -85,7 +85,7 @@ namespace SOOSite.Common
                 GffResource resource = new GffResource();
                 resource.Resref = Encoding.UTF8.GetString(reader.ReadBytes(16)).TrimEnd(new char[] { (char)0 });
                 resource.ResourceID = reader.ReadInt32();
-                resource.ResourceType = reader.ReadInt16();
+                resource.ResourceType = (GffResourceType)reader.ReadInt16();
                 reader.ReadInt16(); // Unused by Bioware
 
                 resources.Add(resource);
@@ -118,7 +118,7 @@ namespace SOOSite.Common
             {
                 resource.Data = reader.ReadBytes(resource.ResourceSize);
 
-                if(validTypes.Contains((GffResourceType)resource.ResourceType))
+                if(validTypes.Contains(resource.ResourceType))
                 {
                     gffReader.LoadGff(resource);
                 }

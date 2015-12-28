@@ -1,6 +1,6 @@
 ﻿namespace SOOSite.Common.GFFParser
 {
-    public enum GffFieldType
+    public enum GffFieldType: uint
     {
         Byte = 0,
         Char = 1,

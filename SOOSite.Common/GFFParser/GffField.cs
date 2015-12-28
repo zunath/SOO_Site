@@ -1,9 +1,33 @@
-﻿namespace SOOSite.Common.GFFParser
+﻿using System.Linq;
+
+namespace SOOSite.Common.GFFParser
 {
     public class GffField
     {
         public GffFieldType FieldType { get; set; }
-        public int LabelIndex { get; set; }
-        public int DataOrDataOffset { get; set; }
+        public uint LabelIndex { get; set; }
+        public uint DataOrDataOffset { get; set; }
+
+        public bool IsComplexType
+        {
+            get
+            {
+                GffFieldType[] complexTypes =
+                {
+                    GffFieldType.DWord64,
+                    GffFieldType.Int64,
+                    GffFieldType.Double,
+                    GffFieldType.CExoString,
+                    GffFieldType.ResRef,
+                    GffFieldType.CExoLocString,
+                    GffFieldType.Void,
+                    GffFieldType.Struct,
+                    GffFieldType.List
+                };
+
+                return complexTypes.Contains(FieldType);
+            }
+        }
+
     }
 }
