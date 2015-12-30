@@ -7,44 +7,19 @@ namespace SOOSite.Common.GFFParser
 {
     public class GffReader
     {
-        private string fileType;
-        private string fileVersion;
-        private uint structOffset;
-        private uint structCount;
-        private uint fieldOffset;
-        private uint fieldCount;
-        private uint labelOffset;
-        private uint labelCount;
-        private uint fieldDataOffset;
-        private uint fieldDataCount;
-        private uint fieldIndicesOffset;
-        private uint fieldIndicesCount;
-        private uint listIndicesOffset;
-        private uint listIndicesCount;
-        private List<GffStruct> structs;
-        private List<GffField> fields;
-        private List<string> labels;
-        private List<byte[]> fieldDataRecords;
-        private List<byte[]> voidData; 
-        private List<NWLocalizedString> fieldDataLocalizedStrings;
-        private List<uint> listIndices { get; set; }
+        private uint _structCount;
+        private uint _fieldCount;
+        private uint _labelCount;
+        private uint _fieldDataOffset;
+        private uint _listIndicesOffset;
         private GffResource _resource;
+        private Gff _result;
 
         BinaryReader _reader;
-
-        public GffReader()
-        {
-            structs = new List<GffStruct>();
-            fields = new List<GffField>();
-            labels = new List<string>();
-            fieldDataRecords = new List<byte[]>();
-            voidData = new List<byte[]>();
-            fieldDataLocalizedStrings = new List<NWLocalizedString>();
-            listIndices = new List<uint>();
-        }
-
+        
         public Gff LoadGff(GffResource resource)
         {
+            _result = new Gff();
             _reader = new BinaryReader(new MemoryStream(resource.Data));
             _resource = resource;
             
@@ -55,38 +30,38 @@ namespace SOOSite.Common.GFFParser
             ReadListIndices();
             ReadFieldDataRecords();
 
-            return BuildGff();
+            return _result;
         }
         
         private void ReadHeader()
         {
-            fileType = Encoding.UTF8.GetString(_reader.ReadBytes(4));
-            fileVersion = Encoding.UTF8.GetString(_reader.ReadBytes(4));
-            structOffset = _reader.ReadUInt32();
-            structCount = _reader.ReadUInt32();
-            fieldOffset = _reader.ReadUInt32();
-            fieldCount = _reader.ReadUInt32();
-            labelOffset = _reader.ReadUInt32();
-            labelCount = _reader.ReadUInt32();
-            fieldDataOffset = _reader.ReadUInt32();
-            fieldDataCount = _reader.ReadUInt32();
-            fieldIndicesOffset = _reader.ReadUInt32();
-            fieldIndicesCount = _reader.ReadUInt32();
-            listIndicesOffset = _reader.ReadUInt32();
-            listIndicesCount = _reader.ReadUInt32();
+            _reader.ReadBytes(4); // FileType
+            _reader.ReadBytes(4); // FileVersion
+            _reader.ReadUInt32(); // StructOffset
+            _structCount = _reader.ReadUInt32();
+            _reader.ReadUInt32(); // FieldOffset
+            _fieldCount = _reader.ReadUInt32();
+            _reader.ReadUInt32(); // LabelOffset
+            _labelCount = _reader.ReadUInt32();
+            _fieldDataOffset = _reader.ReadUInt32();
+            _reader.ReadUInt32(); // FieldDataCount
+            _reader.ReadUInt32(); // FieldIndicesOffset
+            _reader.ReadUInt32(); // FieldIndicesCount
+            _listIndicesOffset = _reader.ReadUInt32(); 
+            _reader.ReadUInt32(); // ListIndicesCount
         }
 
         private void ReadStructs()
         {
-            for(int i = 0; i < structCount; i++)
+            for(int i = 0; i < _structCount; i++)
             {
-                structs.Add(ReadStruct());
+                _result.Structs.Add(ReadStruct());
             }
         }
 
         private void ReadFields()
         {
-            for(int i = 0; i < fieldCount; i++)
+            for(int i = 0; i < _fieldCount; i++)
             {
                 GffField field = new GffField
                 {
@@ -95,38 +70,38 @@ namespace SOOSite.Common.GFFParser
                     DataOrDataOffset = _reader.ReadUInt32()
                 };
 
-                fields.Add(field);
+                _result.Fields.Add(field);
             }
         }
 
         private void ReadLabels()
         {
-            for(int i = 0; i < labelCount; i++)
+            for(int i = 0; i < _labelCount; i++)
             {
                 string label = Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd((char)0);
-                labels.Add(label);
+                _result.Labels.Add(label);
             }
         }
 
         private void ReadListIndices()
         {
-            _reader.BaseStream.Seek(listIndicesOffset, SeekOrigin.Begin);
+            _reader.BaseStream.Seek(_listIndicesOffset, SeekOrigin.Begin);
 
-            if (listIndicesOffset >= _resource.ResourceSize) return;
+            if (_listIndicesOffset >= _resource.ResourceSize) return;
 
             uint size = _reader.ReadUInt32();
 
             for (uint i = 0; i < size; i++)
             {
-                listIndices.Add(_reader.ReadUInt32());
+                _result.ListIndices.Add(_reader.ReadUInt32());
             }
         }
 
         private void ReadFieldDataRecords()
         {
-            _reader.BaseStream.Seek(fieldDataOffset, SeekOrigin.Begin);
+            _reader.BaseStream.Seek(_fieldDataOffset, SeekOrigin.Begin);
 
-            foreach (var field in fields)
+            foreach (var field in _result.Fields)
             {
                 if (!field.IsComplexType) continue;
                 int bytesToRead = 0;
@@ -162,48 +137,32 @@ namespace SOOSite.Common.GFFParser
                             byte[] stringBytes = _reader.ReadBytes(stringLength);
                             locString.Text = Encoding.UTF8.GetString(stringBytes);
 
-                            fieldDataLocalizedStrings.Add(locString);
+                            _result.LocalizedStrings.Add(locString);
                         }
                         break;
                     case GffFieldType.Void:
                         uint size = _reader.ReadUInt32();
-                        voidData.Add(_reader.ReadBytes((int) size));
+                        _result.VoidData.Add(_reader.ReadBytes((int) size));
                         break;
                 }
 
                 if (bytesToRead <= 0) continue;
                 byte[] data = _reader.ReadBytes(bytesToRead);
-                fieldDataRecords.Add(data);
+                _result.FieldData.Add(data);
             }
         }
 
 
         private GffStruct ReadStruct()
         {
-            GffStruct str = new GffStruct();
-            str.StructType = _reader.ReadUInt32();
-            str.DataOrDataOffset = _reader.ReadUInt32();
-            str.FieldCount = _reader.ReadUInt32();
+            GffStruct str = new GffStruct
+            {
+                StructType = _reader.ReadUInt32(),
+                DataOrDataOffset = _reader.ReadUInt32(),
+                FieldCount = _reader.ReadUInt32()
+            };
 
             return str;
         }
-
-        private Gff BuildGff()
-        {
-            Gff gff = new Gff
-            {
-                ResourceType = _resource.ResourceType,
-                Resref = _resource.Resref,
-                Fields = fields,
-                Labels = labels,
-                ListIndices = listIndices,
-                LocalizedStrings = fieldDataLocalizedStrings,
-                Structs = structs,
-                VoidData = voidData
-            };
-
-            return gff;
-        }
-
     }
 }
