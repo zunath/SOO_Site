@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SOOSite.Common.NWObjects;
 
 namespace SOOSite.Common.GFFParser
 {
@@ -7,6 +10,16 @@ namespace SOOSite.Common.GFFParser
         public GffFieldType FieldType { get; set; }
         public uint LabelIndex { get; set; }
         public uint DataOrDataOffset { get; set; }
+
+        public long Int64Value { get; set; }
+        public ulong DWord64Value { get; set; }
+        public double DoubleValue { get; set; }
+        public string ResrefValue { get; set; }
+        public byte[] VoidDataValue { get; set; }
+        public string StringValue { get; set; }
+        public List<NWLocalizedString> LocalizedStrings { get; set; }
+        public GffStruct StructValue { get; set; }
+        public List<int> ListIndices { get; set; } 
 
         public bool IsComplexType
         {
@@ -27,6 +40,12 @@ namespace SOOSite.Common.GFFParser
 
                 return complexTypes.Contains(FieldType);
             }
+        }
+
+        public GffField()
+        {
+            LocalizedStrings = new List<NWLocalizedString>();
+            ListIndices = new List<int>();
         }
 
     }
