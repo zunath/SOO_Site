@@ -8,6 +8,7 @@ namespace SOOSite.Common.GFFParser
         public GffResourceType ResourceType { get; set; }
         public List<GffField> Fields { get; set; }
         public List<string> Labels { get; set; } 
+        public List<GffStruct> Structs { get; set; } 
 
         public Gff()
         {
@@ -16,6 +17,7 @@ namespace SOOSite.Common.GFFParser
             
             Fields = new List<GffField>();
             Labels = new List<string>();
+            Structs = new List<GffStruct>();
         }
     }
 }

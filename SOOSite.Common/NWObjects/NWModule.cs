@@ -63,8 +63,6 @@ namespace SOOSite.Common.NWObjects
             if(source.ResourceType != GffResourceType.IFO)
                 throw new Exception("Source must be IFO resource type.");
             
-            NWModule module = new NWModule();
-
             foreach (string label in source.Labels)
             {
                 GffField field = GetFieldByLabel(source, label);
@@ -75,7 +73,7 @@ namespace SOOSite.Common.NWObjects
                         UsesHOTU = field.DataOrDataOffset == 3 || field.DataOrDataOffset == 2;
                         UsesSOU = field.DataOrDataOffset == 3 || field.DataOrDataOffset == 1;
                         break;
-                    case "Mod_Area_List":
+                    case "Mod_Area_list":
                         break;
                     case "Mod_CacheNSSList":
                         break;
@@ -100,25 +98,28 @@ namespace SOOSite.Common.NWObjects
                         EntryAreaResref = field.ResrefValue;
                         break;
                     case "Mod_Entry_Dir_X":
-                        EntryDirectionX = (float)field.DoubleValue;
+                        EntryDirectionX = field.DataOrDataOffset;
                         break;
                     case "Mod_Entry_Dir_Y":
-                        EntryDirectionY = (float) field.DoubleValue;
+                        EntryDirectionY = field.DataOrDataOffset;
                         break;
                     case "Mod_Entry_X":
-                        EntryPositionX = (float)field.DoubleValue;
+                        EntryPositionX = field.DataOrDataOffset;
                         break;
                     case "Mod_Entry_Y":
-                        EntryPositionY = (float)field.DoubleValue;
+                        EntryPositionY = field.DataOrDataOffset;
                         break;
                     case "Mod_Entry_Z":
-                        EntryPositionZ = (float)field.DoubleValue;
+                        EntryPositionZ = field.DataOrDataOffset;
                         break;
                     case "Mod_Expan_List":
+                        // Deprecated by Bioware
                         break;
                     case "Mod_GVar_List":
+                        // Deprecated by Bioware
                         break;
                     case "Mod_Hak":
+                        // Obsolete by Bioware
                         break;
                     case "Mod_HakList":
                         break;
@@ -140,10 +141,83 @@ namespace SOOSite.Common.NWObjects
                     case "Mod_OnAcquirItem":
                         OnAcquireItem = field.ResrefValue;
                         break;
+                    case "Mod_OnActvtItem":
+                        OnActivateItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnClientEntr":
+                        OnClientEnter = field.ResrefValue;
+                        break;
+                    case "Mod_OnClientLeav":
+                        OnClientLeave = field.ResrefValue;
+                        break;
+                    case "Mod_OnCutsnAbort":
+                        OnCutsceneAbort = field.ResrefValue;
+                        break;
+                    case "Mod_OnHeartbeat":
+                        OnHeartbeat = field.ResrefValue;
+                        break;
+                    case "Mod_OnModLoad":
+                        OnModuleLoad = field.ResrefValue;
+                        break;
+                    case "Mod_OnModStart":
+                        // Deprecated by Bioware
+                        break;
+                    case "Mod_OnPlrDeath":
+                        OnPlayerDeath = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrDying":
+                        OnPlayerDying = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrEqItm":
+                        OnEquipItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrLvlUp":
+                        OnLevelUp = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrRest":
+                        OnPlayerRest = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrUnEqItm":
+                        OnUnequipItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnSpawnBtnDn":
+                        OnPlayerRespawn = field.ResrefValue;
+                        break;
+                    case "Mod_OnUnAqreItem":
+                        OnUnacquireItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnUsrDefined":
+                        OnUserDefined = field.ResrefValue;
+                        break;
+                    case "Mod_StartDay":
+                        StartDay = (byte) field.DataOrDataOffset;
+                        break;
+                    case "Mod_StartHour":
+                        StartHour = (byte) field.DataOrDataOffset;
+                        break;
+                    case "Mod_StartMonth":
+                        StartMonth = (byte) field.DataOrDataOffset;
+                        break;
+                    case "Mod_StartMovie":
+                        StartMovie = field.ResrefValue;
+                        break;
+                    case "Mod_StartYear":
+                        StartYear = field.DataOrDataOffset;
+                        break;
+                    case "Mod_Tag":
+                        Tag = field.StringValue;
+                        break;
+                    case "Mod_Version":
+                        Version = field.DataOrDataOffset;
+                        break;
+                    case "Mod_XPScale":
+                        XPScale = (byte) field.DataOrDataOffset;
+                        break;
+
                 }
             }
 
-            return module;
+            return this;
         }
 
         public Gff ToGff()

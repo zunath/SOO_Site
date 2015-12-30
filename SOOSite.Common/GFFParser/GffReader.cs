@@ -12,16 +12,10 @@ namespace SOOSite.Common.GFFParser
         private uint _labelCount;
         private uint _fieldDataOffset;
         private uint _listIndicesOffset;
-        private readonly List<GffStruct> _structs;
         private Gff _result;
 
         BinaryReader _reader;
-
-        public GffReader()
-        {
-            _structs = new List<GffStruct>();
-        }
-
+        
         public Gff LoadGff(GffResource resource)
         {
             _result = new Gff
@@ -62,7 +56,7 @@ namespace SOOSite.Common.GFFParser
         {
             for(int i = 0; i < _structCount; i++)
             {
-                _structs.Add(ReadStruct());
+                _result.Structs.Add(ReadStruct());
             }
         }
 
@@ -152,7 +146,7 @@ namespace SOOSite.Common.GFFParser
                         field.VoidDataValue = data;
                         break;
                     case GffFieldType.Struct:
-                        field.StructValue = _structs[(int)field.DataOrDataOffset];
+                        field.StructValue = _result.Structs[(int)field.DataOrDataOffset];
                         break;
                     case GffFieldType.List:
                         long backupPosition = _reader.BaseStream.Position;
