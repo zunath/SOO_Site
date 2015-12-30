@@ -24,13 +24,11 @@ namespace SOOSite.Common
         byte[] reserved;
         List<NWLocalizedString> localizedModuleDescriptions;
         List<GffResource> resources;
-        GffReader gffReader;
 
         public ModuleReader()
         {
             localizedModuleDescriptions = new List<NWLocalizedString>();
             resources = new List<GffResource>();
-            gffReader = new GffReader();
         }
 
         public NWModule LoadModule(string filePath)
@@ -114,18 +112,22 @@ namespace SOOSite.Common
                 GffResourceType.FAC, GffResourceType.ITP, GffResourceType.PTM,
                 GffResourceType.PTT, GffResourceType.BIC };
 
+            List<Gff> gffRecords = new List<Gff>();
+
             foreach(var resource in resources)
             {
                 resource.Data = reader.ReadBytes(resource.ResourceSize);
 
                 if(validTypes.Contains(resource.ResourceType))
                 {
-                    gffReader.LoadGff(resource);
+                    GffReader gffReader = new GffReader();
+
+                    gffRecords.Add(gffReader.LoadGff(resource));
                 }
 
             }
 
-
+            var records = gffRecords.Where(x => x.VoidData.Count > 0).ToList();
         }
 
     }

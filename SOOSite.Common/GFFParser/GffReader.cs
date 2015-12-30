@@ -25,8 +25,10 @@ namespace SOOSite.Common.GFFParser
         private List<GffField> fields;
         private List<string> labels;
         private List<byte[]> fieldDataRecords;
+        private List<byte[]> voidData; 
         private List<NWLocalizedString> fieldDataLocalizedStrings;
-        private List<int> listIndices { get; set; }
+        private List<uint> listIndices { get; set; }
+        private GffResource _resource;
 
         BinaryReader _reader;
 
@@ -36,21 +38,26 @@ namespace SOOSite.Common.GFFParser
             fields = new List<GffField>();
             labels = new List<string>();
             fieldDataRecords = new List<byte[]>();
+            voidData = new List<byte[]>();
             fieldDataLocalizedStrings = new List<NWLocalizedString>();
-            listIndices = new List<int>();
+            listIndices = new List<uint>();
         }
 
-        public void LoadGff(GffResource resource)
+        public Gff LoadGff(GffResource resource)
         {
             _reader = new BinaryReader(new MemoryStream(resource.Data));
+            _resource = resource;
             
             ReadHeader();
             ReadStructs();
             ReadFields();
             ReadLabels();
+            ReadListIndices();
             ReadFieldDataRecords();
-        }
 
+            return BuildGff();
+        }
+        
         private void ReadHeader()
         {
             fileType = Encoding.UTF8.GetString(_reader.ReadBytes(4));
@@ -81,10 +88,12 @@ namespace SOOSite.Common.GFFParser
         {
             for(int i = 0; i < fieldCount; i++)
             {
-                GffField field = new GffField();
-                field.FieldType = (GffFieldType)_reader.ReadUInt32();
-                field.LabelIndex = _reader.ReadUInt32();
-                field.DataOrDataOffset = _reader.ReadUInt32();
+                GffField field = new GffField
+                {
+                    FieldType = (GffFieldType) _reader.ReadUInt32(),
+                    LabelIndex = _reader.ReadUInt32(),
+                    DataOrDataOffset = _reader.ReadUInt32()
+                };
 
                 fields.Add(field);
             }
@@ -94,28 +103,33 @@ namespace SOOSite.Common.GFFParser
         {
             for(int i = 0; i < labelCount; i++)
             {
-                string label = Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd(new char[] { (char)0 });
+                string label = Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd((char)0);
                 labels.Add(label);
             }
         }
-        
+
+        private void ReadListIndices()
+        {
+            _reader.BaseStream.Seek(listIndicesOffset, SeekOrigin.Begin);
+
+            if (listIndicesOffset >= _resource.ResourceSize) return;
+
+            uint size = _reader.ReadUInt32();
+
+            for (uint i = 0; i < size; i++)
+            {
+                listIndices.Add(_reader.ReadUInt32());
+            }
+        }
+
         private void ReadFieldDataRecords()
         {
-            foreach(var field in fields)
+            _reader.BaseStream.Seek(fieldDataOffset, SeekOrigin.Begin);
+
+            foreach (var field in fields)
             {
                 if(field.IsComplexType)
                 {
-                    switch(field.FieldType)
-                    {
-                        case GffFieldType.List:
-                            _reader.BaseStream.Seek(listIndicesOffset + field.DataOrDataOffset, SeekOrigin.Begin);
-                            break;
-                        default:
-                            _reader.BaseStream.Seek(fieldDataOffset + field.DataOrDataOffset, SeekOrigin.Begin);
-                            break;
-                    }
-                    
-
                     int bytesToRead = 0;
 
                     switch(field.FieldType)
@@ -131,7 +145,7 @@ namespace SOOSite.Common.GFFParser
                             
                             break;
                         case GffFieldType.ResRef:
-                            bytesToRead = 16;
+                            bytesToRead = _reader.ReadByte();
                             break;
                         case GffFieldType.CExoLocString:
                             uint totalSize = _reader.ReadUInt32();
@@ -151,19 +165,14 @@ namespace SOOSite.Common.GFFParser
                             }
                             break;
                         case GffFieldType.Void:
+                            uint size = _reader.ReadUInt32();
+                            voidData.Add(_reader.ReadBytes((int) size));
+
                             break;
                         case GffFieldType.Struct:
                             GffStruct @struct = structs[(int)field.DataOrDataOffset];
                             break;
                         case GffFieldType.List:
-                            uint listSize = _reader.ReadUInt32();
-
-                            for(int i = 0; i < listSize; i++)
-                            {
-                                int listIndex = _reader.ReadInt32();
-                                GffStruct listStruct = structs[listIndex];
-                            }
-
                             break;
                     }
 
@@ -171,7 +180,6 @@ namespace SOOSite.Common.GFFParser
                     {
                         byte[] data = _reader.ReadBytes(bytesToRead);
                         fieldDataRecords.Add(data);
-                        string test = Encoding.UTF8.GetString(data);
                     }
                 }
             }
@@ -186,6 +194,23 @@ namespace SOOSite.Common.GFFParser
             str.FieldCount = _reader.ReadUInt32();
 
             return str;
+        }
+
+        private Gff BuildGff()
+        {
+            Gff gff = new Gff
+            {
+                ResourceType = _resource.ResourceType,
+                Resref = _resource.Resref,
+                Fields = fields,
+                Labels = labels,
+                ListIndices = listIndices,
+                LocalizedStrings = fieldDataLocalizedStrings,
+                Structs = structs,
+                VoidData = voidData
+            };
+
+            return gff;
         }
 
     }
