@@ -13,8 +13,6 @@ namespace SOOSite.Common.GFFParser
         private uint _fieldDataOffset;
         private uint _listIndicesOffset;
         private readonly List<GffStruct> _structs;
-        private readonly List<uint> _listIndices; 
-        private GffResource _resource;
         private Gff _result;
 
         BinaryReader _reader;
@@ -22,7 +20,6 @@ namespace SOOSite.Common.GFFParser
         public GffReader()
         {
             _structs = new List<GffStruct>();
-            _listIndices = new List<uint>();
         }
 
         public Gff LoadGff(GffResource resource)
@@ -33,13 +30,11 @@ namespace SOOSite.Common.GFFParser
                 Resref = resource.Resref
             };
             _reader = new BinaryReader(new MemoryStream(resource.Data));
-            _resource = resource;
             
             ReadHeader();
             ReadStructs();
             ReadFields();
             ReadLabels();
-            ReadListIndices();
             ReadFieldDataRecords();
 
             return _result;
@@ -93,21 +88,7 @@ namespace SOOSite.Common.GFFParser
                 _result.Labels.Add(Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd((char)0));
             }
         }
-
-        private void ReadListIndices()
-        {
-            _reader.BaseStream.Seek(_listIndicesOffset, SeekOrigin.Begin);
-
-            if (_listIndicesOffset >= _resource.ResourceSize) return;
-
-            uint size = _reader.ReadUInt32();
-
-            for (uint i = 0; i < size; i++)
-            {
-                _listIndices.Add(_reader.ReadUInt32());
-            }
-        }
-
+        
         private void ReadFieldDataRecords()
         {
             _reader.BaseStream.Seek(_fieldDataOffset, SeekOrigin.Begin);
