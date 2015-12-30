@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
 {
-    public class NWItem : INWObject
+    public class NWItem : INWObject<NWItem>
     {
         public string FileName { get; set; }
         public uint AdditionalCost { get; set; }
@@ -27,7 +28,16 @@ namespace SOOSite.Common.NWObjects
         {
             ItemProperties = new List<NWItemProperty>();
         }
-        
 
+
+        public NWItem FromGff(Gff source)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Gff ToGff()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

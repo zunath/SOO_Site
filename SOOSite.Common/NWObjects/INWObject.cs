@@ -1,8 +1,11 @@
 ﻿
+using SOOSite.Common.GFFParser;
+
 namespace SOOSite.Common.NWObjects
 {
-    public interface INWObject
+    public interface INWObject<out T>
     {
-        string FileName { get; set; }
+        T FromGff(Gff source);
+        Gff ToGff();
     }
 }

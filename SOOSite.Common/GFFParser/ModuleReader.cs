@@ -24,6 +24,7 @@ namespace SOOSite.Common
         byte[] reserved;
         List<NWLocalizedString> localizedModuleDescriptions;
         List<GffResource> resources;
+        private NWModule _module;
 
         public ModuleReader()
         {
@@ -35,8 +36,7 @@ namespace SOOSite.Common
         {
             FileStream stream = File.Open(filePath, FileMode.Open);
             reader = new BinaryReader(stream);
-
-            NWModule module = new NWModule();
+            _module = new NWModule();
 
             ReadHeader();
             ReadStrings();
@@ -44,7 +44,7 @@ namespace SOOSite.Common
             ReadResourceList();
             ReadResourceData();
             
-            return module;
+            return _module;
         }
 
         private void ReadHeader()
@@ -126,6 +126,10 @@ namespace SOOSite.Common
                 }
 
             }
+
+            Gff ifo = gffRecords.Find(x => x.ResourceType == GffResourceType.IFO);
+            _module = _module.FromGff(ifo);
+
         }
 
     }
