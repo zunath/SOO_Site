@@ -45,13 +45,8 @@
     <Compile Include="GFFParser\GffFieldType.cs" />
     <Compile Include="GFFParser\GffReader.cs" />
     <Compile Include="GFFParser\GffStruct.cs" />
-    <Compile Include="GffRawStructures\Gff.cs" />
-    <Compile Include="GffRawStructures\GffElement.cs" />
-    <Compile Include="GffRawStructures\GffString.cs" />
-    <Compile Include="GffRawStructures\GffStruct.cs" />
     <Compile Include="GFFParser\GffResourceType.cs" />
     <Compile Include="GFFParser\ModuleReader.cs" />
-    <Compile Include="NWObjects\CExoLocString.cs" />
     <Compile Include="NWObjects\INWObject.cs" />
     <Compile Include="NWObjects\NWArea.cs" />
     <Compile Include="NWObjects\NWItem.cs" />
@@ -60,7 +55,6 @@
     <Compile Include="NWObjects\NWModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GFFParser\GffResource.cs" />
-    <Compile Include="Serialization\GffSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

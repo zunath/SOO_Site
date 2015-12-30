@@ -126,8 +126,6 @@ namespace SOOSite.Common
                 }
 
             }
-
-            var records = gffRecords.Where(x => x.VoidData.Count > 0).ToList();
         }
 
     }
