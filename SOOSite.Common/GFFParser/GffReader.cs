@@ -128,60 +128,52 @@ namespace SOOSite.Common.GFFParser
 
             foreach (var field in fields)
             {
-                if(field.IsComplexType)
+                if (!field.IsComplexType) continue;
+                int bytesToRead = 0;
+
+                switch(field.FieldType)
                 {
-                    int bytesToRead = 0;
-
-                    switch(field.FieldType)
-                    {
-                        case GffFieldType.DWord64:
-                        case GffFieldType.Int64:
-                        case GffFieldType.Double:
-                            bytesToRead = 8;
-                            break;
-                        case GffFieldType.CExoString:
-                            uint stringSize = _reader.ReadUInt32();
-                            bytesToRead = (int)stringSize;
+                    case GffFieldType.DWord64:
+                    case GffFieldType.Int64:
+                    case GffFieldType.Double:
+                        bytesToRead = 8;
+                        break;
+                    case GffFieldType.CExoString:
+                        uint stringSize = _reader.ReadUInt32();
+                        bytesToRead = (int)stringSize;
                             
-                            break;
-                        case GffFieldType.ResRef:
-                            bytesToRead = _reader.ReadByte();
-                            break;
-                        case GffFieldType.CExoLocString:
-                            uint totalSize = _reader.ReadUInt32();
-                            uint stringRef = _reader.ReadUInt32();
-                            uint stringCount = _reader.ReadUInt32();
+                        break;
+                    case GffFieldType.ResRef:
+                        bytesToRead = _reader.ReadByte();
+                        break;
+                    case GffFieldType.CExoLocString:
+                        _reader.ReadUInt32(); // TotalSize
+                        _reader.ReadUInt32(); // StringRef
+                        uint stringCount = _reader.ReadUInt32();
 
-                            for(int i = 0; i < stringCount; i++)
+                        for(int i = 0; i < stringCount; i++)
+                        {
+                            NWLocalizedString locString = new NWLocalizedString
                             {
-                                NWLocalizedString locString = new NWLocalizedString();
-                                locString.LanguageID = _reader.ReadInt32();
+                                LanguageID = _reader.ReadInt32()
+                            };
 
-                                int stringLength = _reader.ReadInt32();
-                                byte[] stringBytes = _reader.ReadBytes(stringLength);
-                                locString.Text = Encoding.UTF8.GetString(stringBytes);
+                            int stringLength = _reader.ReadInt32();
+                            byte[] stringBytes = _reader.ReadBytes(stringLength);
+                            locString.Text = Encoding.UTF8.GetString(stringBytes);
 
-                                fieldDataLocalizedStrings.Add(locString);
-                            }
-                            break;
-                        case GffFieldType.Void:
-                            uint size = _reader.ReadUInt32();
-                            voidData.Add(_reader.ReadBytes((int) size));
-
-                            break;
-                        case GffFieldType.Struct:
-                            GffStruct @struct = structs[(int)field.DataOrDataOffset];
-                            break;
-                        case GffFieldType.List:
-                            break;
-                    }
-
-                    if(bytesToRead > 0)
-                    {
-                        byte[] data = _reader.ReadBytes(bytesToRead);
-                        fieldDataRecords.Add(data);
-                    }
+                            fieldDataLocalizedStrings.Add(locString);
+                        }
+                        break;
+                    case GffFieldType.Void:
+                        uint size = _reader.ReadUInt32();
+                        voidData.Add(_reader.ReadBytes((int) size));
+                        break;
                 }
+
+                if (bytesToRead <= 0) continue;
+                byte[] data = _reader.ReadBytes(bytesToRead);
+                fieldDataRecords.Add(data);
             }
         }
 
