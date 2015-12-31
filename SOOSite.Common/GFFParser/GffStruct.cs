@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SOOSite.Common.GFFParser
 {
-    public class GffStruct
-    {
-        public List<GffField> Fields { get; set; }
-
-        public GffStruct()
-        {
-            Fields = new List<GffField>();
-        }
+    public class GffStruct: Dictionary<string, GffField>
+    {   
     }
 }

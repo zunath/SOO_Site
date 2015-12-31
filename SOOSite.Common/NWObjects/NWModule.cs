@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
@@ -62,160 +63,164 @@ namespace SOOSite.Common.NWObjects
         {
             if(source.ResourceType != GffResourceType.IFO)
                 throw new Exception("Source must be IFO resource type.");
-            
-            foreach (string label in source.Labels)
+
+            foreach (var entry in source.RootStruct)
             {
-                GffField field = null;// = GetFieldByLabel(source, label);
+                string label = entry.Value.Label;
+                GffField field = entry.Value;
 
-                //switch (label)
-                //{
-                //    case "Expansion_Pack":
-                //        UsesHOTU = field.DataOrDataOffset == 3 || field.DataOrDataOffset == 2;
-                //        UsesSOU = field.DataOrDataOffset == 3 || field.DataOrDataOffset == 1;
-                //        break;
-                //    case "Mod_Area_list":
-                //        break;
-                //    case "Mod_CacheNSSList":
-                //        break;
-                //    case "Mod_Creator_ID":
-                //        CreatorID = (int)field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_CustomTlk":
-                //        CustomTLK = field.StringValue;
-                //        break;
-                //    case "Mod_CutsceneList":
-                //        break;
-                //    case "Mod_DawnHour":
-                //        DawnHour = (byte)field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Description":
-                //        Description = field.LocalizedStrings[0];
-                //        break;
-                //    case "Mod_DuskHour":
-                //        DuskHour = (byte)field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Entry_Area":
-                //        EntryAreaResref = field.ResrefValue;
-                //        break;
-                //    case "Mod_Entry_Dir_X":
-                //        EntryDirectionX = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Entry_Dir_Y":
-                //        EntryDirectionY = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Entry_X":
-                //        EntryPositionX = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Entry_Y":
-                //        EntryPositionY = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Entry_Z":
-                //        EntryPositionZ = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Expan_List":
-                //        // Deprecated by Bioware
-                //        break;
-                //    case "Mod_GVar_List":
-                //        // Deprecated by Bioware
-                //        break;
-                //    case "Mod_Hak":
-                //        // Obsolete by Bioware
-                //        break;
-                //    case "Mod_HakList":
-                //        break;
-                //    case "Mod_ID":
-                //        ModuleID = BitConverter.ToInt32(field.VoidDataValue, 0);
-                //        break;
-                //    case "Mod_IsSaveGame":
-                //        IsSaveGame = Convert.ToBoolean(field.DataOrDataOffset);
-                //        break;
-                //    case "Mod_MinGameVer":
-                //        MinimumGameVersion = field.StringValue;
-                //        break;
-                //    case "Mod_MinPerHour":
-                //        MinutesPerHour = (byte) field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Name":
-                //        Name = field.LocalizedStrings[0];
-                //        break;
-                //    case "Mod_OnAcquirItem":
-                //        OnAcquireItem = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnActvtItem":
-                //        OnActivateItem = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnClientEntr":
-                //        OnClientEnter = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnClientLeav":
-                //        OnClientLeave = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnCutsnAbort":
-                //        OnCutsceneAbort = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnHeartbeat":
-                //        OnHeartbeat = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnModLoad":
-                //        OnModuleLoad = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnModStart":
-                //        // Deprecated by Bioware
-                //        break;
-                //    case "Mod_OnPlrDeath":
-                //        OnPlayerDeath = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnPlrDying":
-                //        OnPlayerDying = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnPlrEqItm":
-                //        OnEquipItem = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnPlrLvlUp":
-                //        OnLevelUp = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnPlrRest":
-                //        OnPlayerRest = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnPlrUnEqItm":
-                //        OnUnequipItem = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnSpawnBtnDn":
-                //        OnPlayerRespawn = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnUnAqreItem":
-                //        OnUnacquireItem = field.ResrefValue;
-                //        break;
-                //    case "Mod_OnUsrDefined":
-                //        OnUserDefined = field.ResrefValue;
-                //        break;
-                //    case "Mod_StartDay":
-                //        StartDay = (byte) field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_StartHour":
-                //        StartHour = (byte) field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_StartMonth":
-                //        StartMonth = (byte) field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_StartMovie":
-                //        StartMovie = field.ResrefValue;
-                //        break;
-                //    case "Mod_StartYear":
-                //        StartYear = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_Tag":
-                //        Tag = field.StringValue;
-                //        break;
-                //    case "Mod_Version":
-                //        Version = field.DataOrDataOffset;
-                //        break;
-                //    case "Mod_XPScale":
-                //        XPScale = (byte) field.DataOrDataOffset;
-                //        break;
+                switch (label)
+                {
+                    case "Expansion_Pack":
+                        UsesHOTU = field.ByteValue == 3 || field.ByteValue == 2;
+                        UsesSOU = field.ByteValue == 3 || field.ByteValue == 1;
+                        break;
+                    case "Mod_Area_list":
+                        break;
+                    case "Mod_CacheNSSList":
+                        break;
+                    case "Mod_Creator_ID":
+                        CreatorID = field.IntValue;
+                        break;
+                    case "Mod_CustomTlk":
+                        CustomTLK = field.StringValue;
+                        break;
+                    case "Mod_CutsceneList":
+                        break;
+                    case "Mod_DawnHour":
+                        DawnHour = field.ByteValue;
+                        break;
+                    case "Mod_Description":
+                        Description = field.LocalizedStrings[0];
+                        break;
+                    case "Mod_DuskHour":
+                        DuskHour = field.ByteValue;
+                        break;
+                    case "Mod_Entry_Area":
+                        EntryAreaResref = field.ResrefValue;
+                        break;
+                    case "Mod_Entry_Dir_X":
+                        EntryDirectionX = field.FloatValue;
+                        break;
+                    case "Mod_Entry_Dir_Y":
+                        EntryDirectionY = field.FloatValue;
+                        break;
+                    case "Mod_Entry_X":
+                        EntryPositionX = field.FloatValue;
+                        break;
+                    case "Mod_Entry_Y":
+                        EntryPositionY = field.FloatValue;
+                        break;
+                    case "Mod_Entry_Z":
+                        EntryPositionZ = field.FloatValue;
+                        break;
+                    case "Mod_Expan_List":
+                        // Deprecated by Bioware
+                        break;
+                    case "Mod_GVar_List":
+                        // Deprecated by Bioware
+                        break;
+                    case "Mod_Hak":
+                        // Obsolete by Bioware
+                        break;
+                    case "Mod_HakList":
+                        break;
+                    case "Mod_ID":
+                        ModuleID = BitConverter.ToInt32(field.VoidDataValue, 0);
+                        break;
+                    case "Mod_IsSaveGame":
+                        IsSaveGame = Convert.ToBoolean(field.ByteValue);
+                        break;
+                    case "Mod_MinGameVer":
+                        MinimumGameVersion = field.StringValue;
+                        break;
+                    case "Mod_MinPerHour":
+                        MinutesPerHour = field.ByteValue;
+                        break;
+                    case "Mod_Name":
+                        Name = field.LocalizedStrings[0];
+                        break;
+                    case "Mod_OnAcquirItem":
+                        OnAcquireItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnActvtItem":
+                        OnActivateItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnClientEntr":
+                        OnClientEnter = field.ResrefValue;
+                        break;
+                    case "Mod_OnClientLeav":
+                        OnClientLeave = field.ResrefValue;
+                        break;
+                    case "Mod_OnCutsnAbort":
+                        OnCutsceneAbort = field.ResrefValue;
+                        break;
+                    case "Mod_OnHeartbeat":
+                        OnHeartbeat = field.ResrefValue;
+                        break;
+                    case "Mod_OnModLoad":
+                        OnModuleLoad = field.ResrefValue;
+                        break;
+                    case "Mod_OnModStart":
+                        // Deprecated by Bioware
+                        break;
+                    case "Mod_OnPlrDeath":
+                        OnPlayerDeath = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrDying":
+                        OnPlayerDying = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrEqItm":
+                        OnEquipItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrLvlUp":
+                        OnLevelUp = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrRest":
+                        OnPlayerRest = field.ResrefValue;
+                        break;
+                    case "Mod_OnPlrUnEqItm":
+                        OnUnequipItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnSpawnBtnDn":
+                        OnPlayerRespawn = field.ResrefValue;
+                        break;
+                    case "Mod_OnUnAqreItem":
+                        OnUnacquireItem = field.ResrefValue;
+                        break;
+                    case "Mod_OnUsrDefined":
+                        OnUserDefined = field.ResrefValue;
+                        break;
+                    case "Mod_StartDay":
+                        StartDay = field.ByteValue;
+                        break;
+                    case "Mod_StartHour":
+                        StartHour = field.ByteValue;
+                        break;
+                    case "Mod_StartMonth":
+                        StartMonth = field.ByteValue;
+                        break;
+                    case "Mod_StartMovie":
+                        StartMovie = field.ResrefValue;
+                        break;
+                    case "Mod_StartYear":
+                        StartYear = field.DWordValue;
+                        break;
+                    case "Mod_Tag":
+                        Tag = field.StringValue;
+                        break;
+                    case "Mod_Version":
+                        Version = field.DWordValue;
+                        break;
+                    case "Mod_XPScale":
+                        XPScale = field.ByteValue;
+                        break;
 
-                //}
+                }
+
             }
+
+
 
             return this;
         }

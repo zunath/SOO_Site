@@ -13,11 +13,9 @@ namespace SOOSite.Common.GFFParser
         private uint _fieldDataOffset;
         private uint _fieldIndicesOffset;
         private uint _listIndicesOffset;
-        private uint _listIndicesCount;
-        private uint _structOffset;
         private readonly List<GffRawStruct> _structs;
         private readonly List<GffRawField> _fields;
-        private readonly List<uint> _listIndices; 
+        private readonly List<string> _labels; 
         private Gff _result;
 
         BinaryReader _reader;
@@ -26,7 +24,7 @@ namespace SOOSite.Common.GFFParser
         {
             _structs = new List<GffRawStruct>();
             _fields = new List<GffRawField>();
-            _listIndices = new List<uint>();
+            _labels = new List<string>();
         }
 
         public Gff LoadGff(GffResource resource)
@@ -43,7 +41,6 @@ namespace SOOSite.Common.GFFParser
             ReadRawFields();
             ReadLabels();
             ReadFieldIndices();
-            ReadListIndices();
             ProcessStructs();
 
             return _result;
@@ -53,7 +50,7 @@ namespace SOOSite.Common.GFFParser
         {
             _reader.ReadBytes(4); // FileType
             _reader.ReadBytes(4); // FileVersion
-            _structOffset = _reader.ReadUInt32();
+            _reader.ReadUInt32(); // StructOffset
             _structCount = _reader.ReadUInt32();
             _reader.ReadUInt32(); // FieldOffset
             _fieldCount = _reader.ReadUInt32();
@@ -64,7 +61,7 @@ namespace SOOSite.Common.GFFParser
             _fieldIndicesOffset = _reader.ReadUInt32();
             _reader.ReadUInt32(); // FieldIndicesCount
             _listIndicesOffset = _reader.ReadUInt32(); 
-            _listIndicesCount = _reader.ReadUInt32(); // ListIndicesCount
+            _reader.ReadUInt32(); // ListIndicesCount
         }
 
         private void ReadRawStructs()
@@ -104,21 +101,10 @@ namespace SOOSite.Common.GFFParser
         {
             for(uint i = 0; i < _labelCount; i++)
             {
-                _result.Labels.Add(Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd((char)0));
+                _labels.Add(Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd((char)0));
             }
         }
-
-        private void ReadListIndices()
-        {
-            if (_listIndicesCount <= 0) return;
-            _reader.BaseStream.Seek(_listIndicesOffset, SeekOrigin.Begin);
-            uint size = _reader.ReadUInt32();
-
-            for (uint i = 0; i < size; i++)
-            {
-                _listIndices.Add(_reader.ReadUInt32());
-            }
-        }
+        
 
         private void ReadFieldIndices()
         {
@@ -128,12 +114,8 @@ namespace SOOSite.Common.GFFParser
 
         private void ProcessStructs()
         {
-            for (int i = 0; i < _structCount; i++)
-            {
-                GffRawStruct rawStruct = _structs[i];
-                GffStruct @struct = ProcessSingleStruct(rawStruct);
-                _result.Structs.Add(@struct);
-            }
+            GffRawStruct rawStruct = _structs[0];
+            _result.RootStruct = ProcessSingleStruct(rawStruct);
         }
 
         private GffStruct ProcessSingleStruct(GffRawStruct rawStruct)
@@ -143,7 +125,8 @@ namespace SOOSite.Common.GFFParser
             if (rawStruct.FieldCount == 1)
             {
                 GffRawField rawField = _fields[(int)rawStruct.DataOrDataOffset];
-                @struct.Fields.Add(ProcessField(rawField, @struct));
+                string label = _labels[(int)rawField.LabelIndex];
+                @struct[label] = ProcessField(rawField, @struct);
             }
             else if(rawStruct.FieldCount > 0)
             {
@@ -153,7 +136,8 @@ namespace SOOSite.Common.GFFParser
                 {
                     uint fieldIndex = _reader.ReadUInt32();
                     GffRawField rawField = _fields[(int)fieldIndex];
-                    @struct.Fields.Add(ProcessField(rawField, @struct));
+                    string label = _labels[(int) rawField.LabelIndex];
+                    @struct[label] = ProcessField(rawField, @struct);
                 }
             }
 
@@ -174,7 +158,7 @@ namespace SOOSite.Common.GFFParser
             {
                 FieldType = rawField.FieldType,
                 Parent = parent,
-                Label = _result.Labels[(int)rawField.LabelIndex]
+                Label = _labels[(int)rawField.LabelIndex]
             };
 
             switch (rawField.FieldType)
