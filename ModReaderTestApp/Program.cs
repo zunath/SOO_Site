@@ -1,6 +1,7 @@
 ﻿using SOOSite.Common;
 using SOOSite.Common.NWObjects;
 using System.IO;
+using SOOSite.Common.GFFParser;
 
 namespace ModReaderTestApp
 {

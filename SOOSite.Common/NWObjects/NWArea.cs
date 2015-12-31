@@ -13,7 +13,10 @@ namespace SOOSite.Common.NWObjects
 
         public NWArea FromGff(Gff source)
         {
-            throw new System.NotImplementedException();
+            NWArea area = new NWArea();
+
+
+            return area;
         }
 
         public Gff ToGff()

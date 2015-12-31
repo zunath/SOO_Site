@@ -1,4 +1,4 @@
-﻿namespace SOOSite.Common
+﻿namespace SOOSite.Common.GFFParser
 {
     public enum GffResourceType
     {

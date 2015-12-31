@@ -1,41 +1,31 @@
-﻿using SOOSite.Common.GFFParser;
-using SOOSite.Common.NWObjects;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SOOSite.Common.NWObjects;
 
-namespace SOOSite.Common
+namespace SOOSite.Common.GFFParser
 {
     public class ModuleReader
     {
-        BinaryReader reader;
-        string fileType;
-        string version;
-        int languageCount;
-        int localizedStringSize;
-        int entryCount;
-        int offsetToLocalizedString;
-        int offsetToKeyList;
-        int offsetToResourceList;
-        int buildYear;
-        int buildDay;
-        int descriptionStrRef;
-        byte[] reserved;
-        List<NWLocalizedString> localizedModuleDescriptions;
-        List<GffResource> resources;
+        private BinaryReader _reader;
+        private int _languageCount;
+        private int _entryCount;
+        private int _offsetToResourceList;
+        private readonly List<NWLocalizedString> _localizedModuleDescriptions;
+        private readonly List<GffResource> _resources;
         private NWModule _module;
 
         public ModuleReader()
         {
-            localizedModuleDescriptions = new List<NWLocalizedString>();
-            resources = new List<GffResource>();
+            _localizedModuleDescriptions = new List<NWLocalizedString>();
+            _resources = new List<GffResource>();
         }
 
         public NWModule LoadModule(string filePath)
         {
             FileStream stream = File.Open(filePath, FileMode.Open);
-            reader = new BinaryReader(stream);
+            _reader = new BinaryReader(stream);
             _module = new NWModule();
 
             ReadHeader();
@@ -49,55 +39,55 @@ namespace SOOSite.Common
 
         private void ReadHeader()
         {
-            fileType = Encoding.UTF8.GetString(reader.ReadBytes(4));
-            version = Encoding.UTF8.GetString(reader.ReadBytes(4));
-            languageCount = reader.ReadInt32();
-            localizedStringSize = reader.ReadInt32();
-            entryCount = reader.ReadInt32();
-            offsetToLocalizedString = reader.ReadInt32();
-            offsetToKeyList = reader.ReadInt32();
-            offsetToResourceList = reader.ReadInt32();
-            buildYear = reader.ReadInt32();
-            buildDay = reader.ReadInt32();
-            descriptionStrRef = reader.ReadInt32();
-            reserved = reader.ReadBytes(116);
+            _reader.ReadBytes(4); // FileType
+            _reader.ReadBytes(4); // Version
+            _languageCount = _reader.ReadInt32();
+            _reader.ReadInt32(); // LocalizedStringSize
+            _entryCount = _reader.ReadInt32();
+            _reader.ReadInt32(); // OffsetToLocalizedString
+            _reader.ReadInt32(); // OffsetToKeyList
+            _offsetToResourceList = _reader.ReadInt32();
+            _reader.ReadInt32(); // BuildYear
+            _reader.ReadInt32(); // BuildDay
+            _reader.ReadInt32(); // DescriptionStrRef
+            _reader.ReadBytes(116); // Bioware Reserved
         }
 
         private void ReadStrings()
         {
-            for(int i = 0; i < languageCount; i++)
+            for(int i = 0; i < _languageCount; i++)
             {
                 NWLocalizedString locString = new NWLocalizedString();
-                locString.LanguageID = reader.ReadInt32();
-                int stringSize = reader.ReadInt32();
-                locString.Text = Encoding.UTF8.GetString(reader.ReadBytes(stringSize));
+                locString.LanguageID = _reader.ReadInt32();
+                int stringSize = _reader.ReadInt32();
+                locString.Text = Encoding.UTF8.GetString(_reader.ReadBytes(stringSize));
 
-                localizedModuleDescriptions.Add(locString);
+                _localizedModuleDescriptions.Add(locString);
             }
         }
 
         private void ReadResourceIndices()
         {
-            for(int i = 0; i < entryCount; i++)
+            for(int i = 0; i < _entryCount; i++)
             {
                 GffResource resource = new GffResource();
-                resource.Resref = Encoding.UTF8.GetString(reader.ReadBytes(16)).TrimEnd(new char[] { (char)0 });
-                resource.ResourceID = reader.ReadInt32();
-                resource.ResourceType = (GffResourceType)reader.ReadInt16();
-                reader.ReadInt16(); // Unused by Bioware
+                resource.Resref = Encoding.UTF8.GetString(_reader.ReadBytes(16)).TrimEnd(new char[] { (char)0 });
+                resource.ResourceID = _reader.ReadInt32();
+                resource.ResourceType = (GffResourceType)_reader.ReadInt16();
+                _reader.ReadInt16(); // Unused by Bioware
 
-                resources.Add(resource);
+                _resources.Add(resource);
             }
         }
 
         private void ReadResourceList()
         {
-            reader.BaseStream.Seek(offsetToResourceList, SeekOrigin.Begin);
+            _reader.BaseStream.Seek(_offsetToResourceList, SeekOrigin.Begin);
 
-            for (int i = 0; i < entryCount; i++)
+            for (int i = 0; i < _entryCount; i++)
             {
-                resources[i].OffsetToResource = reader.ReadInt32();
-                resources[i].ResourceSize = reader.ReadInt32();
+                _resources[i].OffsetToResource = _reader.ReadInt32();
+                _resources[i].ResourceSize = _reader.ReadInt32();
             }
         }
         
@@ -114,9 +104,9 @@ namespace SOOSite.Common
 
             List<Gff> gffRecords = new List<Gff>();
 
-            foreach(var resource in resources)
+            foreach(var resource in _resources)
             {
-                resource.Data = reader.ReadBytes(resource.ResourceSize);
+                resource.Data = _reader.ReadBytes(resource.ResourceSize);
 
                 if(validTypes.Contains(resource.ResourceType))
                 {

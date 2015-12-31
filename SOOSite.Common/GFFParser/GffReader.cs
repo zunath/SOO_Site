@@ -40,7 +40,6 @@ namespace SOOSite.Common.GFFParser
             ReadRawStructs();
             ReadRawFields();
             ReadLabels();
-            ReadFieldIndices();
             ProcessStructs();
 
             return _result;
@@ -105,13 +104,6 @@ namespace SOOSite.Common.GFFParser
             }
         }
         
-
-        private void ReadFieldIndices()
-        {
-            _reader.BaseStream.Seek(_fieldIndicesOffset, SeekOrigin.Begin);
-
-        }
-
         private void ProcessStructs()
         {
             GffRawStruct rawStruct = _structs[0];

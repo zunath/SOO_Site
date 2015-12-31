@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
 {
-    public class NWModule: NWObjectBase, INWObject<NWModule>
+    public class NWModule: INWObject<NWModule>
     {
         public bool UsesSOU { get; set; }
         public bool UsesHOTU { get; set; }

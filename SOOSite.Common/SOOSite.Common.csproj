@@ -55,7 +55,6 @@
     <Compile Include="NWObjects\NWItemProperty.cs" />
     <Compile Include="NWObjects\NWLocalizedString.cs" />
     <Compile Include="NWObjects\NWModule.cs" />
-    <Compile Include="NWObjects\NWObjectBase.cs" />
     <Compile Include="NWObjects\NWWaypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GFFParser\GffResource.cs" />
