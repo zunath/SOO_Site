@@ -1,10 +1,14 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace SOOSite.Common.GFFParser
 {
     public class GffStruct
     {
-        public uint StructType { get; set; }
-        public uint DataOrDataOffset { get; set; }
-        public uint FieldCount { get; set; }
+        public List<GffField> Fields { get; set; }
+
+        public GffStruct()
+        {
+            Fields = new List<GffField>();
+        }
     }
 }

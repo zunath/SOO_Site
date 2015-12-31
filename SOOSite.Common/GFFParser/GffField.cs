@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using SOOSite.Common.NWObjects;
 
 namespace SOOSite.Common.GFFParser
@@ -8,9 +6,16 @@ namespace SOOSite.Common.GFFParser
     public class GffField
     {
         public GffFieldType FieldType { get; set; }
-        public uint LabelIndex { get; set; }
-        public uint DataOrDataOffset { get; set; }
+        public GffStruct Parent { get; set; }
+        public string Label { get; set; }
 
+        public byte ByteValue { get; set; }
+        public char CharValue { get; set; }
+        public ushort WordValue { get; set; }
+        public short ShortValue { get; set; }
+        public uint DWordValue { get; set; }
+        public int IntValue { get; set; }
+        public float FloatValue { get; set; }
         public long Int64Value { get; set; }
         public ulong DWord64Value { get; set; }
         public double DoubleValue { get; set; }
@@ -19,33 +24,12 @@ namespace SOOSite.Common.GFFParser
         public string StringValue { get; set; }
         public List<NWLocalizedString> LocalizedStrings { get; set; }
         public GffStruct StructValue { get; set; }
-        public List<int> ListIndices { get; set; } 
-
-        public bool IsComplexType
-        {
-            get
-            {
-                GffFieldType[] complexTypes =
-                {
-                    GffFieldType.DWord64,
-                    GffFieldType.Int64,
-                    GffFieldType.Double,
-                    GffFieldType.CExoString,
-                    GffFieldType.ResRef,
-                    GffFieldType.CExoLocString,
-                    GffFieldType.Void,
-                    GffFieldType.Struct,
-                    GffFieldType.List
-                };
-
-                return complexTypes.Contains(FieldType);
-            }
-        }
+        public List<GffStruct> ListValue { get; set; } 
 
         public GffField()
         {
             LocalizedStrings = new List<NWLocalizedString>();
-            ListIndices = new List<int>();
+            ListValue = new List<GffStruct>();
         }
 
     }

@@ -43,9 +43,11 @@
     <Compile Include="GFFParser\Gff.cs" />
     <Compile Include="GFFParser\GffField.cs" />
     <Compile Include="GFFParser\GffFieldType.cs" />
+    <Compile Include="GFFParser\GffRawField.cs" />
     <Compile Include="GFFParser\GffReader.cs" />
-    <Compile Include="GFFParser\GffStruct.cs" />
+    <Compile Include="GFFParser\GffRawStruct.cs" />
     <Compile Include="GFFParser\GffResourceType.cs" />
+    <Compile Include="GFFParser\GffStruct.cs" />
     <Compile Include="GFFParser\ModuleReader.cs" />
     <Compile Include="NWObjects\INWObject.cs" />
     <Compile Include="NWObjects\NWArea.cs" />
