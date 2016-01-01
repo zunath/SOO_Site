@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\AreaFlagType.cs" />
+    <Compile Include="Enums\PVPSettingType.cs" />
+    <Compile Include="Enums\WindPowerType.cs" />
     <Compile Include="GFFParser\Gff.cs" />
     <Compile Include="GFFParser\GffField.cs" />
     <Compile Include="GFFParser\GffFieldType.cs" />
@@ -49,12 +52,18 @@
     <Compile Include="GFFParser\GffResourceType.cs" />
     <Compile Include="GFFParser\GffStruct.cs" />
     <Compile Include="GFFParser\ModuleReader.cs" />
-    <Compile Include="NWObjects\INWObject.cs" />
     <Compile Include="NWObjects\NWArea.cs" />
+    <Compile Include="NWObjects\NWCreature.cs" />
+    <Compile Include="NWObjects\NWDoor.cs" />
+    <Compile Include="NWObjects\NWEncounter.cs" />
     <Compile Include="NWObjects\NWItem.cs" />
     <Compile Include="NWObjects\NWItemProperty.cs" />
     <Compile Include="NWObjects\NWLocalizedString.cs" />
     <Compile Include="NWObjects\NWModule.cs" />
+    <Compile Include="NWObjects\NWPlaceable.cs" />
+    <Compile Include="NWObjects\NWSound.cs" />
+    <Compile Include="NWObjects\NWStore.cs" />
+    <Compile Include="NWObjects\NWTrigger.cs" />
     <Compile Include="NWObjects\NWWaypoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GFFParser\GffResource.cs" />

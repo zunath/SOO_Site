@@ -3,7 +3,7 @@ using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
 {
-    public class NWItem : INWObject<NWItem>
+    public class NWItem
     {
         public string FileName { get; set; }
         public uint AdditionalCost { get; set; }
@@ -30,9 +30,11 @@ namespace SOOSite.Common.NWObjects
         }
 
 
-        public NWItem FromGff(Gff source)
+        public static NWItem FromGff(GffStruct source)
         {
-            throw new System.NotImplementedException();
+            NWItem item = new NWItem();
+
+            return item;
         }
 
         public Gff ToGff()

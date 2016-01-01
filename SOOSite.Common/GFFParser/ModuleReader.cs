@@ -26,7 +26,6 @@ namespace SOOSite.Common.GFFParser
         {
             FileStream stream = File.Open(filePath, FileMode.Open);
             _reader = new BinaryReader(stream);
-            _module = new NWModule();
 
             ReadHeader();
             ReadStrings();
@@ -117,8 +116,11 @@ namespace SOOSite.Common.GFFParser
 
             }
 
+            List<Gff> areList = gffRecords.Where(x => x.ResourceType == GffResourceType.ARE).ToList();
+            List<Gff> gitList = gffRecords.Where(x => x.ResourceType == GffResourceType.GIT).ToList();
+            List<Gff> gicList = gffRecords.Where(x => x.ResourceType == GffResourceType.GIC).ToList();
             Gff ifo = gffRecords.Find(x => x.ResourceType == GffResourceType.IFO);
-            _module = _module.FromGff(ifo);
+            _module = NWModule.FromGff(ifo, areList, gitList, gicList);
 
         }
 

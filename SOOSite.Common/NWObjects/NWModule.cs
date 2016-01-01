@@ -4,7 +4,7 @@ using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
 {
-    public class NWModule: INWObject<NWModule>
+    public class NWModule
     {
         public bool UsesSOU { get; set; }
         public bool UsesHOTU { get; set; }
@@ -57,10 +57,18 @@ namespace SOOSite.Common.NWObjects
         public List<NWArea> Areas { get; set; }
         public List<NWItem> Items { get; set; }
 
-        public NWModule FromGff(Gff source)
+        public NWModule()
+        {
+            Areas = new List<NWArea>();
+            Items = new List<NWItem>();
+        }
+
+        public static NWModule FromGff(Gff source, List<Gff> areList, List<Gff> gitList, List<Gff> gicList   )
         {
             if(source.ResourceType != GffResourceType.IFO)
                 throw new Exception("Source must be IFO resource type.");
+
+            NWModule module = new NWModule();
 
             foreach (var entry in source.RootStruct)
             {
@@ -70,47 +78,57 @@ namespace SOOSite.Common.NWObjects
                 switch (label)
                 {
                     case "Expansion_Pack":
-                        UsesHOTU = field.ByteValue == 3 || field.ByteValue == 2;
-                        UsesSOU = field.ByteValue == 3 || field.ByteValue == 1;
+                        module.UsesHOTU = field.ByteValue == 3 || field.ByteValue == 2;
+                        module.UsesSOU = field.ByteValue == 3 || field.ByteValue == 1;
                         break;
                     case "Mod_Area_list":
+
+                        for (int x = 0; x < areList.Count; x++)
+                        {
+                            Gff are = areList[x];
+                            Gff git = gitList[x];
+                            Gff gic = gicList[x];
+
+                            module.Areas.Add(NWArea.FromGff(are, git, gic));
+                        }
+
                         break;
                     case "Mod_CacheNSSList":
                         break;
                     case "Mod_Creator_ID":
-                        CreatorID = field.IntValue;
+                        module.CreatorID = field.IntValue;
                         break;
                     case "Mod_CustomTlk":
-                        CustomTLK = field.StringValue;
+                        module.CustomTLK = field.StringValue;
                         break;
                     case "Mod_CutsceneList":
                         break;
                     case "Mod_DawnHour":
-                        DawnHour = field.ByteValue;
+                        module.DawnHour = field.ByteValue;
                         break;
                     case "Mod_Description":
-                        Description = field.LocalizedStrings[0];
+                        module.Description = field.LocalizedStrings[0];
                         break;
                     case "Mod_DuskHour":
-                        DuskHour = field.ByteValue;
+                        module.DuskHour = field.ByteValue;
                         break;
                     case "Mod_Entry_Area":
-                        EntryAreaResref = field.ResrefValue;
+                        module.EntryAreaResref = field.ResrefValue;
                         break;
                     case "Mod_Entry_Dir_X":
-                        EntryDirectionX = field.FloatValue;
+                        module.EntryDirectionX = field.FloatValue;
                         break;
                     case "Mod_Entry_Dir_Y":
-                        EntryDirectionY = field.FloatValue;
+                        module.EntryDirectionY = field.FloatValue;
                         break;
                     case "Mod_Entry_X":
-                        EntryPositionX = field.FloatValue;
+                        module.EntryPositionX = field.FloatValue;
                         break;
                     case "Mod_Entry_Y":
-                        EntryPositionY = field.FloatValue;
+                        module.EntryPositionY = field.FloatValue;
                         break;
                     case "Mod_Entry_Z":
-                        EntryPositionZ = field.FloatValue;
+                        module.EntryPositionZ = field.FloatValue;
                         break;
                     case "Mod_Expan_List":
                         // Deprecated by Bioware
@@ -124,94 +142,94 @@ namespace SOOSite.Common.NWObjects
                     case "Mod_HakList":
                         break;
                     case "Mod_ID":
-                        ModuleID = BitConverter.ToInt32(field.VoidDataValue, 0);
+                        module.ModuleID = BitConverter.ToInt32(field.VoidDataValue, 0);
                         break;
                     case "Mod_IsSaveGame":
-                        IsSaveGame = Convert.ToBoolean(field.ByteValue);
+                        module.IsSaveGame = Convert.ToBoolean(field.ByteValue);
                         break;
                     case "Mod_MinGameVer":
-                        MinimumGameVersion = field.StringValue;
+                        module.MinimumGameVersion = field.StringValue;
                         break;
                     case "Mod_MinPerHour":
-                        MinutesPerHour = field.ByteValue;
+                        module.MinutesPerHour = field.ByteValue;
                         break;
                     case "Mod_Name":
-                        Name = field.LocalizedStrings[0];
+                        module.Name = field.LocalizedStrings[0];
                         break;
                     case "Mod_OnAcquirItem":
-                        OnAcquireItem = field.ResrefValue;
+                        module.OnAcquireItem = field.ResrefValue;
                         break;
                     case "Mod_OnActvtItem":
-                        OnActivateItem = field.ResrefValue;
+                        module.OnActivateItem = field.ResrefValue;
                         break;
                     case "Mod_OnClientEntr":
-                        OnClientEnter = field.ResrefValue;
+                        module.OnClientEnter = field.ResrefValue;
                         break;
                     case "Mod_OnClientLeav":
-                        OnClientLeave = field.ResrefValue;
+                        module.OnClientLeave = field.ResrefValue;
                         break;
                     case "Mod_OnCutsnAbort":
-                        OnCutsceneAbort = field.ResrefValue;
+                        module.OnCutsceneAbort = field.ResrefValue;
                         break;
                     case "Mod_OnHeartbeat":
-                        OnHeartbeat = field.ResrefValue;
+                        module.OnHeartbeat = field.ResrefValue;
                         break;
                     case "Mod_OnModLoad":
-                        OnModuleLoad = field.ResrefValue;
+                        module.OnModuleLoad = field.ResrefValue;
                         break;
                     case "Mod_OnModStart":
                         // Deprecated by Bioware
                         break;
                     case "Mod_OnPlrDeath":
-                        OnPlayerDeath = field.ResrefValue;
+                        module.OnPlayerDeath = field.ResrefValue;
                         break;
                     case "Mod_OnPlrDying":
-                        OnPlayerDying = field.ResrefValue;
+                        module.OnPlayerDying = field.ResrefValue;
                         break;
                     case "Mod_OnPlrEqItm":
-                        OnEquipItem = field.ResrefValue;
+                        module.OnEquipItem = field.ResrefValue;
                         break;
                     case "Mod_OnPlrLvlUp":
-                        OnLevelUp = field.ResrefValue;
+                        module.OnLevelUp = field.ResrefValue;
                         break;
                     case "Mod_OnPlrRest":
-                        OnPlayerRest = field.ResrefValue;
+                        module.OnPlayerRest = field.ResrefValue;
                         break;
                     case "Mod_OnPlrUnEqItm":
-                        OnUnequipItem = field.ResrefValue;
+                        module.OnUnequipItem = field.ResrefValue;
                         break;
                     case "Mod_OnSpawnBtnDn":
-                        OnPlayerRespawn = field.ResrefValue;
+                        module.OnPlayerRespawn = field.ResrefValue;
                         break;
                     case "Mod_OnUnAqreItem":
-                        OnUnacquireItem = field.ResrefValue;
+                        module.OnUnacquireItem = field.ResrefValue;
                         break;
                     case "Mod_OnUsrDefined":
-                        OnUserDefined = field.ResrefValue;
+                        module.OnUserDefined = field.ResrefValue;
                         break;
                     case "Mod_StartDay":
-                        StartDay = field.ByteValue;
+                        module.StartDay = field.ByteValue;
                         break;
                     case "Mod_StartHour":
-                        StartHour = field.ByteValue;
+                        module.StartHour = field.ByteValue;
                         break;
                     case "Mod_StartMonth":
-                        StartMonth = field.ByteValue;
+                        module.StartMonth = field.ByteValue;
                         break;
                     case "Mod_StartMovie":
-                        StartMovie = field.ResrefValue;
+                        module.StartMovie = field.ResrefValue;
                         break;
                     case "Mod_StartYear":
-                        StartYear = field.DWordValue;
+                        module.StartYear = field.DWordValue;
                         break;
                     case "Mod_Tag":
-                        Tag = field.StringValue;
+                        module.Tag = field.StringValue;
                         break;
                     case "Mod_Version":
-                        Version = field.DWordValue;
+                        module.Version = field.DWordValue;
                         break;
                     case "Mod_XPScale":
-                        XPScale = field.ByteValue;
+                        module.XPScale = field.ByteValue;
                         break;
 
                 }
@@ -220,7 +238,7 @@ namespace SOOSite.Common.NWObjects
 
 
 
-            return this;
+            return module;
         }
 
         public Gff ToGff()

@@ -2,7 +2,7 @@
 
 namespace SOOSite.Common.NWObjects
 {
-    public class NWWaypoint: INWObject<NWWaypoint>
+    public class NWWaypoint
     {
         public byte AppearanceID { get; set; }
         public NWLocalizedString Description { get; set; }
@@ -24,12 +24,9 @@ namespace SOOSite.Common.NWObjects
         public float YPosition { get; set; }
         public float ZPosition { get; set; }
 
-        public NWWaypoint FromGff(Gff source)
+        public static NWWaypoint FromGff(GffStruct source)
         {
-            NWWaypoint waypoint = new NWWaypoint
-            {
-                Resref = source.Resref
-            };
+            NWWaypoint waypoint = new NWWaypoint();
 
             return waypoint;
         }
