@@ -54,6 +54,8 @@ namespace SOOSite.Common.NWObjects
         public string OnUnacquireItem { get; set; }
         public string OnUserDefined { get; set; }
 
+        public List<string> CachedScripts { get; set; } 
+        public List<string> HakPaks { get; set; } 
 
         public List<NWLocalizedString> LocalizedModuleDescriptions { get; set; }
         public List<NWArea> Areas { get; set; }
@@ -70,6 +72,9 @@ namespace SOOSite.Common.NWObjects
         public NWModule()
         {
             Areas = new List<NWArea>();
+            CachedScripts = new List<string>();
+            HakPaks = new List<string>();
+
             PaletteItems = new List<NWItem>();
             PaletteCreatures = new List<NWCreature>();
             PaletteDoors = new List<NWDoor>();
@@ -94,10 +99,8 @@ namespace SOOSite.Common.NWObjects
             #region Module Fields
             module.UsesHOTU = ifo.RootStruct["Expansion_Pack"].WordValue == 3 || ifo.RootStruct["Expansion_Pack"].WordValue == 2;
             module.UsesSOU = ifo.RootStruct["Expansion_Pack"].WordValue == 3 || ifo.RootStruct["Expansion_Pack"].WordValue == 1;
-            // TODO: Mod_CacheNSSList
             module.CreatorID = ifo.RootStruct["Mod_Creator_ID"].IntValue;
             module.CustomTLK = ifo.RootStruct["Mod_CustomTlk"].StringValue;
-            // TODO: Mod_CutsceneList
             module.DawnHour = ifo.RootStruct["Mod_DawnHour"].ByteValue;
             module.Description = ifo.RootStruct["Mod_Description"].LocalizedStrings[0];
             module.DuskHour = ifo.RootStruct["Mod_DuskHour"].ByteValue;
@@ -107,10 +110,6 @@ namespace SOOSite.Common.NWObjects
             module.EntryPositionX = ifo.RootStruct["Mod_Entry_X"].FloatValue;
             module.EntryPositionY = ifo.RootStruct["Mod_Entry_Y"].FloatValue;
             module.EntryPositionZ = ifo.RootStruct["Mod_Entry_Z"].FloatValue;
-            // TODO: Mod_Expan_List (Deprecated)
-            // TODO: Mod_GVar_List (Deprecated)
-            // TODO: Mod_Hak (Obsolete)
-            // TODO: Mod_HakList
             module.ModuleID = BitConverter.ToInt32(ifo.RootStruct["Mod_ID"].VoidDataValue, 0);
             module.IsSaveGame = Convert.ToBoolean(ifo.RootStruct["Mod_IsSaveGame"].ByteValue);
             module.MinimumGameVersion = ifo.RootStruct["Mod_MinGameVer"].StringValue;
@@ -150,6 +149,18 @@ namespace SOOSite.Common.NWObjects
                 Gff gic = gicList[x];
 
                 module.Areas.Add(NWArea.FromGff(are, git, gic));
+            }
+
+            // Load Cached Scripts
+            foreach (GffStruct script in ifo.RootStruct["Mod_CacheNSSList"].ListValue)
+            {
+                module.CachedScripts.Add(script["ResRef"].ResrefValue);
+            }
+
+            // Load Hakpaks
+            foreach (GffStruct hakpak in ifo.RootStruct["Mod_HakList"].ListValue)
+            {
+                module.HakPaks.Add(hakpak["Mod_Hak"].StringValue);
             }
 
             #endregion
