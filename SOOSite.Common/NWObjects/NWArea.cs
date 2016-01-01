@@ -189,13 +189,42 @@ namespace SOOSite.Common.NWObjects
 
             foreach (GffStruct @struct in gitSource.RootStruct["WaypointList"].ListValue)
                 area.Waypoints.Add(NWWaypoint.FromGff(@struct));
-            
+
             #endregion
 
             #region GIC Fields
             // GIC files contain only comments.
+            for (int x = 0; x < gicSource.RootStruct["Creature List"].ListValue.Count; x++)
+                area.Creatures[x].Comment = gicSource.RootStruct["Creature List"].ListValue[x]["Comment"].StringValue;
 
-            #endregion  
+            for (int x = 0; x < gicSource.RootStruct["Door List"].ListValue.Count; x++)
+                area.Doors[x].Comment = gicSource.RootStruct["Door List"].ListValue[x]["Comment"].StringValue;
+
+            // 2015-12-31: There appears to be a defect in NWN where encounter comments aren't saved correctly.
+            // I can't process this data, so I commented it out.
+            //for (int x = 0; x < gicSource.RootStruct["Encounter List"].ListValue.Count; x++)
+            //    area.Encounters[x].Comment = gicSource.RootStruct["Encounter List"].ListValue[x]["Comment"].StringValue;
+
+            for (int x = 0; x < gicSource.RootStruct["List"].ListValue.Count; x++)
+                area.Items[x].Comment = gicSource.RootStruct["List"].ListValue[x]["Comment"].StringValue;
+            
+            for (int x = 0; x < gicSource.RootStruct["Placeable List"].ListValue.Count; x++)
+                area.Placeables[x].Comment = gicSource.RootStruct["Placeable List"].ListValue[x]["Comment"].StringValue;
+            
+            for (int x = 0; x < gicSource.RootStruct["SoundList"].ListValue.Count; x++)
+                area.Sounds[x].Comment = gicSource.RootStruct["SoundList"].ListValue[x]["Comment"].StringValue;
+            
+            for (int x = 0; x < gicSource.RootStruct["StoreList"].ListValue.Count; x++)
+                area.Stores[x].Comment = gicSource.RootStruct["StoreList"].ListValue[x]["Comment"].StringValue;
+            
+            for (int x = 0; x < gicSource.RootStruct["TriggerList"].ListValue.Count; x++)
+                area.Triggers[x].Comment = gicSource.RootStruct["TriggerList"].ListValue[x]["Comment"].StringValue;
+            
+            for (int x = 0; x < gicSource.RootStruct["WaypointList"].ListValue.Count; x++)
+                area.Waypoints[x].Comment = gicSource.RootStruct["WaypointList"].ListValue[x]["Comment"].StringValue;
+
+
+            #endregion
 
 
             return area;
