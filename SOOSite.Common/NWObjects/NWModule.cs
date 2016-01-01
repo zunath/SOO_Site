@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SOOSite.Common.GFFParser;
 
 namespace SOOSite.Common.NWObjects
@@ -42,6 +43,7 @@ namespace SOOSite.Common.NWObjects
         public string OnCutsceneAbort { get; set; }
         public string OnHeartbeat { get; set; }
         public string OnModuleLoad { get; set; }
+        public string OnModuleStart { get; set; }
         public string OnPlayerDeath { get; set; }
         public string OnPlayerDying { get; set; }
         public string OnEquipItem { get; set; }
@@ -55,188 +57,143 @@ namespace SOOSite.Common.NWObjects
 
         public List<NWLocalizedString> LocalizedModuleDescriptions { get; set; }
         public List<NWArea> Areas { get; set; }
-        public List<NWItem> Items { get; set; }
+        public List<NWCreature> PaletteCreatures { get; set; } 
+        public List<NWDoor> PaletteDoors { get; set; } 
+        public List<NWEncounter> PaletteEncounters { get; set; } 
+        public List<NWItem> PaletteItems { get; set; }
+        public List<NWPlaceable> PalettePlaceables { get; set; } 
+        public List<NWSound> PaletteSounds { get; set; } 
+        public List<NWStore> PaletteStores { get; set; } 
+        public List<NWTrigger> PaletteTriggers { get; set; } 
+        public List<NWWaypoint> PaletteWaypoints { get; set; } 
 
         public NWModule()
         {
             Areas = new List<NWArea>();
-            Items = new List<NWItem>();
+            PaletteItems = new List<NWItem>();
+            PaletteCreatures = new List<NWCreature>();
+            PaletteDoors = new List<NWDoor>();
+            PaletteEncounters = new List<NWEncounter>();
+            PaletteItems = new List<NWItem>();
+            PalettePlaceables = new List<NWPlaceable>();
+            PaletteSounds = new List<NWSound>();
+            PaletteStores = new List<NWStore>();
+            PaletteTriggers = new List<NWTrigger>();
+            PaletteWaypoints = new List<NWWaypoint>();
         }
 
-        public static NWModule FromGff(Gff source, List<Gff> areList, List<Gff> gitList, List<Gff> gicList   )
+        public static NWModule FromGff(List<Gff> source )
         {
-            if(source.ResourceType != GffResourceType.IFO)
-                throw new Exception("Source must be IFO resource type.");
-
             NWModule module = new NWModule();
 
-            foreach (var entry in source.RootStruct)
+            Gff ifo = source.Find(x => x.ResourceType == GffResourceType.IFO);
+            List<Gff> areList = source.Where(x => x.ResourceType == GffResourceType.ARE).ToList();
+            List<Gff> gitList = source.Where(x => x.ResourceType == GffResourceType.GIT).ToList();
+            List<Gff> gicList = source.Where(x => x.ResourceType == GffResourceType.GIC).ToList();
+            
+            #region Module Fields
+            module.UsesHOTU = ifo.RootStruct["Expansion_Pack"].WordValue == 3 || ifo.RootStruct["Expansion_Pack"].WordValue == 2;
+            module.UsesSOU = ifo.RootStruct["Expansion_Pack"].WordValue == 3 || ifo.RootStruct["Expansion_Pack"].WordValue == 1;
+            // TODO: Mod_CacheNSSList
+            module.CreatorID = ifo.RootStruct["Mod_Creator_ID"].IntValue;
+            module.CustomTLK = ifo.RootStruct["Mod_CustomTlk"].StringValue;
+            // TODO: Mod_CutsceneList
+            module.DawnHour = ifo.RootStruct["Mod_DawnHour"].ByteValue;
+            module.Description = ifo.RootStruct["Mod_Description"].LocalizedStrings[0];
+            module.DuskHour = ifo.RootStruct["Mod_DuskHour"].ByteValue;
+            module.EntryAreaResref = ifo.RootStruct["Mod_Entry_Area"].ResrefValue;
+            module.EntryDirectionX = ifo.RootStruct["Mod_Entry_Dir_X"].FloatValue;
+            module.EntryDirectionY = ifo.RootStruct["Mod_Entry_Dir_Y"].FloatValue;
+            module.EntryPositionX = ifo.RootStruct["Mod_Entry_X"].FloatValue;
+            module.EntryPositionY = ifo.RootStruct["Mod_Entry_Y"].FloatValue;
+            module.EntryPositionZ = ifo.RootStruct["Mod_Entry_Z"].FloatValue;
+            // TODO: Mod_Expan_List (Deprecated)
+            // TODO: Mod_GVar_List (Deprecated)
+            // TODO: Mod_Hak (Obsolete)
+            // TODO: Mod_HakList
+            module.ModuleID = BitConverter.ToInt32(ifo.RootStruct["Mod_ID"].VoidDataValue, 0);
+            module.IsSaveGame = Convert.ToBoolean(ifo.RootStruct["Mod_IsSaveGame"].ByteValue);
+            module.MinimumGameVersion = ifo.RootStruct["Mod_MinGameVer"].StringValue;
+            module.MinutesPerHour = ifo.RootStruct["Mod_MinPerHour"].ByteValue;
+            module.Name = ifo.RootStruct["Mod_Name"].LocalizedStrings[0];
+            module.OnAcquireItem = ifo.RootStruct["Mod_OnAcquirItem"].ResrefValue;
+            module.OnActivateItem = ifo.RootStruct["Mod_OnActvtItem"].ResrefValue;
+            module.OnClientEnter = ifo.RootStruct["Mod_OnClientEntr"].ResrefValue;
+            module.OnClientLeave = ifo.RootStruct["Mod_OnClientLeav"].ResrefValue;
+            module.OnCutsceneAbort = ifo.RootStruct["Mod_OnCutsnAbort"].ResrefValue;
+            module.OnHeartbeat = ifo.RootStruct["Mod_OnHeartbeat"].ResrefValue;
+            module.OnModuleLoad = ifo.RootStruct["Mod_OnModLoad"].ResrefValue;
+            module.OnModuleStart = ifo.RootStruct["Mod_OnModStart"].ResrefValue;
+            module.OnPlayerDeath = ifo.RootStruct["Mod_OnPlrDeath"].ResrefValue;
+            module.OnPlayerDying = ifo.RootStruct["Mod_OnPlrDying"].ResrefValue;
+            module.OnEquipItem = ifo.RootStruct["Mod_OnPlrEqItm"].ResrefValue;
+            module.OnLevelUp = ifo.RootStruct["Mod_OnPlrLvlUp"].ResrefValue;
+            module.OnUnequipItem = ifo.RootStruct["Mod_OnPlrUnEqItm"].ResrefValue;
+            module.OnPlayerRest = ifo.RootStruct["Mod_OnPlrRest"].ResrefValue;
+            module.OnPlayerRespawn = ifo.RootStruct["Mod_OnSpawnBtnDn"].ResrefValue;
+            module.OnUnacquireItem = ifo.RootStruct["Mod_OnUnAqreItem"].ResrefValue;
+            module.OnUserDefined = ifo.RootStruct["Mod_OnUsrDefined"].ResrefValue;
+            module.StartDay = ifo.RootStruct["Mod_StartDay"].ByteValue;
+            module.StartHour = ifo.RootStruct["Mod_StartHour"].ByteValue;
+            module.StartMonth = ifo.RootStruct["Mod_StartMonth"].ByteValue;
+            module.StartMovie = ifo.RootStruct["Mod_StartMovie"].ResrefValue;
+            module.StartYear = ifo.RootStruct["Mod_StartYear"].DWordValue;
+            module.Tag = ifo.RootStruct["Mod_Tag"].StringValue;
+            module.Version = ifo.RootStruct["Mod_Version"].DWordValue;
+            module.XPScale = ifo.RootStruct["Mod_XPScale"].ByteValue;
+
+            // Load Module Areas
+            for (int x = 0; x < areList.Count; x++)
             {
-                string label = entry.Value.Label;
-                GffField field = entry.Value;
+                Gff are = areList[x];
+                Gff git = gitList[x];
+                Gff gic = gicList[x];
 
-                switch (label)
-                {
-                    case "Expansion_Pack":
-                        module.UsesHOTU = field.ByteValue == 3 || field.ByteValue == 2;
-                        module.UsesSOU = field.ByteValue == 3 || field.ByteValue == 1;
-                        break;
-                    case "Mod_Area_list":
-
-                        for (int x = 0; x < areList.Count; x++)
-                        {
-                            Gff are = areList[x];
-                            Gff git = gitList[x];
-                            Gff gic = gicList[x];
-
-                            module.Areas.Add(NWArea.FromGff(are, git, gic));
-                        }
-
-                        break;
-                    case "Mod_CacheNSSList":
-                        break;
-                    case "Mod_Creator_ID":
-                        module.CreatorID = field.IntValue;
-                        break;
-                    case "Mod_CustomTlk":
-                        module.CustomTLK = field.StringValue;
-                        break;
-                    case "Mod_CutsceneList":
-                        break;
-                    case "Mod_DawnHour":
-                        module.DawnHour = field.ByteValue;
-                        break;
-                    case "Mod_Description":
-                        module.Description = field.LocalizedStrings[0];
-                        break;
-                    case "Mod_DuskHour":
-                        module.DuskHour = field.ByteValue;
-                        break;
-                    case "Mod_Entry_Area":
-                        module.EntryAreaResref = field.ResrefValue;
-                        break;
-                    case "Mod_Entry_Dir_X":
-                        module.EntryDirectionX = field.FloatValue;
-                        break;
-                    case "Mod_Entry_Dir_Y":
-                        module.EntryDirectionY = field.FloatValue;
-                        break;
-                    case "Mod_Entry_X":
-                        module.EntryPositionX = field.FloatValue;
-                        break;
-                    case "Mod_Entry_Y":
-                        module.EntryPositionY = field.FloatValue;
-                        break;
-                    case "Mod_Entry_Z":
-                        module.EntryPositionZ = field.FloatValue;
-                        break;
-                    case "Mod_Expan_List":
-                        // Deprecated by Bioware
-                        break;
-                    case "Mod_GVar_List":
-                        // Deprecated by Bioware
-                        break;
-                    case "Mod_Hak":
-                        // Obsolete by Bioware
-                        break;
-                    case "Mod_HakList":
-                        break;
-                    case "Mod_ID":
-                        module.ModuleID = BitConverter.ToInt32(field.VoidDataValue, 0);
-                        break;
-                    case "Mod_IsSaveGame":
-                        module.IsSaveGame = Convert.ToBoolean(field.ByteValue);
-                        break;
-                    case "Mod_MinGameVer":
-                        module.MinimumGameVersion = field.StringValue;
-                        break;
-                    case "Mod_MinPerHour":
-                        module.MinutesPerHour = field.ByteValue;
-                        break;
-                    case "Mod_Name":
-                        module.Name = field.LocalizedStrings[0];
-                        break;
-                    case "Mod_OnAcquirItem":
-                        module.OnAcquireItem = field.ResrefValue;
-                        break;
-                    case "Mod_OnActvtItem":
-                        module.OnActivateItem = field.ResrefValue;
-                        break;
-                    case "Mod_OnClientEntr":
-                        module.OnClientEnter = field.ResrefValue;
-                        break;
-                    case "Mod_OnClientLeav":
-                        module.OnClientLeave = field.ResrefValue;
-                        break;
-                    case "Mod_OnCutsnAbort":
-                        module.OnCutsceneAbort = field.ResrefValue;
-                        break;
-                    case "Mod_OnHeartbeat":
-                        module.OnHeartbeat = field.ResrefValue;
-                        break;
-                    case "Mod_OnModLoad":
-                        module.OnModuleLoad = field.ResrefValue;
-                        break;
-                    case "Mod_OnModStart":
-                        // Deprecated by Bioware
-                        break;
-                    case "Mod_OnPlrDeath":
-                        module.OnPlayerDeath = field.ResrefValue;
-                        break;
-                    case "Mod_OnPlrDying":
-                        module.OnPlayerDying = field.ResrefValue;
-                        break;
-                    case "Mod_OnPlrEqItm":
-                        module.OnEquipItem = field.ResrefValue;
-                        break;
-                    case "Mod_OnPlrLvlUp":
-                        module.OnLevelUp = field.ResrefValue;
-                        break;
-                    case "Mod_OnPlrRest":
-                        module.OnPlayerRest = field.ResrefValue;
-                        break;
-                    case "Mod_OnPlrUnEqItm":
-                        module.OnUnequipItem = field.ResrefValue;
-                        break;
-                    case "Mod_OnSpawnBtnDn":
-                        module.OnPlayerRespawn = field.ResrefValue;
-                        break;
-                    case "Mod_OnUnAqreItem":
-                        module.OnUnacquireItem = field.ResrefValue;
-                        break;
-                    case "Mod_OnUsrDefined":
-                        module.OnUserDefined = field.ResrefValue;
-                        break;
-                    case "Mod_StartDay":
-                        module.StartDay = field.ByteValue;
-                        break;
-                    case "Mod_StartHour":
-                        module.StartHour = field.ByteValue;
-                        break;
-                    case "Mod_StartMonth":
-                        module.StartMonth = field.ByteValue;
-                        break;
-                    case "Mod_StartMovie":
-                        module.StartMovie = field.ResrefValue;
-                        break;
-                    case "Mod_StartYear":
-                        module.StartYear = field.DWordValue;
-                        break;
-                    case "Mod_Tag":
-                        module.Tag = field.StringValue;
-                        break;
-                    case "Mod_Version":
-                        module.Version = field.DWordValue;
-                        break;
-                    case "Mod_XPScale":
-                        module.XPScale = field.ByteValue;
-                        break;
-
-                }
-
+                module.Areas.Add(NWArea.FromGff(are, git, gic));
             }
 
+            #endregion
 
+            #region Palette Blueprint Loading
+            
+            // Creatures
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTC).ToList())
+                module.PaletteCreatures.Add(NWCreature.FromGff(gff.RootStruct));
+
+            // Doors
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTD).ToList())
+                module.PaletteDoors.Add(NWDoor.FromGff(gff.RootStruct));
+
+            // Encounters
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTE).ToList())
+                module.PaletteEncounters.Add(NWEncounter.FromGff(gff.RootStruct));
+
+            // Items
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTI).ToList())
+                module.PaletteItems.Add(NWItem.FromGff(gff.RootStruct));
+
+            // Placeables
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTP).ToList())
+                module.PalettePlaceables.Add(NWPlaceable.FromGff(gff.RootStruct));
+
+            // Sounds
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTS).ToList())
+                module.PaletteSounds.Add(NWSound.FromGff(gff.RootStruct));
+
+            // Stores
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTM).ToList())
+                module.PaletteStores.Add(NWStore.FromGff(gff.RootStruct));
+
+            // Triggers
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTT).ToList())
+                module.PaletteTriggers.Add(NWTrigger.FromGff(gff.RootStruct));
+
+            // Waypoints
+            foreach (Gff gff in source.Where(x => x.ResourceType == GffResourceType.UTW).ToList())
+                module.PaletteWaypoints.Add(NWWaypoint.FromGff(gff.RootStruct));
+
+
+            #endregion
 
             return module;
         }

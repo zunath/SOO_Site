@@ -116,11 +116,7 @@ namespace SOOSite.Common.GFFParser
 
             }
 
-            List<Gff> areList = gffRecords.Where(x => x.ResourceType == GffResourceType.ARE).ToList();
-            List<Gff> gitList = gffRecords.Where(x => x.ResourceType == GffResourceType.GIT).ToList();
-            List<Gff> gicList = gffRecords.Where(x => x.ResourceType == GffResourceType.GIC).ToList();
-            Gff ifo = gffRecords.Find(x => x.ResourceType == GffResourceType.IFO);
-            _module = NWModule.FromGff(ifo, areList, gitList, gicList);
+            _module = NWModule.FromGff(gffRecords);
 
         }
 
