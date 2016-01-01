@@ -2,6 +2,7 @@
 {
     public class NWItemProperty
     {
+        public byte ChanceAppear { get; set; }
         public byte CostTable { get; set; }
         public ushort CostValue { get; set; }
         public byte Param1 { get; set; }
