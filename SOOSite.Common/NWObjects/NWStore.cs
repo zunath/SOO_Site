@@ -58,6 +58,7 @@ namespace SOOSite.Common.NWObjects
             store.StoreGold = source["StoreGold"].IntValue;
             store.Tag = source["Tag"].StringValue;
 
+            // TODO: figure out this structure.
             //foreach (GffStruct @struct in source["StoreList"].ListValue[0]["ItemList"].ListValue)
             //{
             //    store.StoreList.Add(NWItem.FromGff(@struct));
