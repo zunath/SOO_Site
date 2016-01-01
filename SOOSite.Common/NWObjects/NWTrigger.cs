@@ -14,7 +14,7 @@ namespace SOOSite.Common.NWObjects
         public float HighlightHeight { get; set; }
         public string KeyName { get; set; }
         public string LinkedTo { get; set; }
-        public TriggerLinkType LinkedToType { get; set; }
+        public TransitionLinkType LinkedToType { get; set; }
         public ushort LoadScreenID { get; set; }
         public NWLocalizedString LocalizedName { get; set; }
         public string OnClick { get; set; }
@@ -60,7 +60,7 @@ namespace SOOSite.Common.NWObjects
             trigger.HighlightHeight = source["HighlightHeight"].FloatValue;
             trigger.KeyName = source["KeyName"].StringValue;
             trigger.LinkedTo = source["LinkedTo"].StringValue;
-            trigger.LinkedToType = (TriggerLinkType)source["LinkedToFlags"].ByteValue;
+            trigger.LinkedToType = (TransitionLinkType)source["LinkedToFlags"].ByteValue;
             trigger.LoadScreenID = source["LoadScreenID"].WordValue;
             trigger.LocalizedName = source["LocalizedName"].LocalizedStrings.Count <= 0 ? new NWLocalizedString() : source["LocalizedName"].LocalizedStrings[0];
             trigger.OnClick = source["OnClick"].ResrefValue;

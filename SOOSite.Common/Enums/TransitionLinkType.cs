@@ -1,6 +1,6 @@
 ﻿namespace SOOSite.Common.Enums
 {
-    public enum TriggerLinkType: byte
+    public enum TransitionLinkType: byte
     {
         None = 0,
         Door = 1,
