@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Enums\AreaFlagType.cs" />
     <Compile Include="Enums\PVPSettingType.cs" />
+    <Compile Include="Enums\TriggerLinkType.cs" />
+    <Compile Include="Enums\TriggerType.cs" />
     <Compile Include="Enums\WindPowerType.cs" />
     <Compile Include="GFFParser\Gff.cs" />
     <Compile Include="GFFParser\GffField.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="NWObjects\NWLocalizedString.cs" />
     <Compile Include="NWObjects\NWModule.cs" />
     <Compile Include="NWObjects\NWPlaceable.cs" />
+    <Compile Include="NWObjects\NWPoint.cs" />
     <Compile Include="NWObjects\NWSound.cs" />
     <Compile Include="NWObjects\NWStore.cs" />
     <Compile Include="NWObjects\NWTrigger.cs" />
