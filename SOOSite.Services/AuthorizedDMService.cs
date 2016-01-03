@@ -9,7 +9,7 @@ namespace SOOSite.Services
 {
     public class AuthorizedDMService: IAuthorizedDMService
     {
-        private IAuthorizedDMRepository _repo;
+        private readonly IAuthorizedDMRepository _repo;
 
         public AuthorizedDMService(IAuthorizedDMRepository repo)
         {

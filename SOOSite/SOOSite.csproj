@@ -168,18 +168,18 @@
     <Content Include="app\controllers\authorizedDMsController.js" />
     <Content Include="app\controllers\classesController.js" />
     <Content Include="app\controllers\craftRecipesController.js" />
-    <Content Include="app\controllers\creaturesController.js" />
     <Content Include="app\controllers\downloadsController.js" />
     <Content Include="app\controllers\factionsController.js" />
     <Content Include="app\controllers\footerController.js" />
     <Content Include="app\controllers\homeController.js" />
-    <Content Include="app\controllers\itemsController.js" />
     <Content Include="app\controllers\keyItemsController.js" />
+    <Content Include="app\controllers\moduleEditorController.js" />
     <Content Include="app\controllers\navbarController.js" />
     <Content Include="app\controllers\screenshotsController.js" />
     <Content Include="app\controllers\serverInfoController.js" />
     <Content Include="app\controllers\storyController.js" />
     <Content Include="app\factories\keyItemsFactory.js" />
+    <Content Include="app\factories\moduleEditorFactory.js" />
     <Content Include="app\partials\chatPanelPartial.html" />
     <Content Include="app\partials\footerPartial.html" />
     <Content Include="app\factories\authorizedDMFactory.js" />
@@ -187,13 +187,12 @@
     <Content Include="app\views\authorizedDMs.html" />
     <Content Include="app\views\classes.html" />
     <Content Include="app\views\craftRecipes.html" />
-    <Content Include="app\views\creatures.html" />
     <Content Include="app\views\downloads.html" />
     <Content Include="app\views\factions.html" />
     <Content Include="app\views\home.html" />
     <Content Include="app\partials\navbarPartial.html" />
-    <Content Include="app\views\items.html" />
     <Content Include="app\views\keyItems.html" />
+    <Content Include="app\views\moduleEditor.html" />
     <Content Include="app\views\screenshots.html" />
     <Content Include="app\views\serverInfo.html" />
     <Content Include="app\views\story.html" />
@@ -1031,6 +1030,7 @@
     <Compile Include="Hubs\AuthorizedDMHub.cs" />
     <Compile Include="Hubs\KeyItemHub.cs" />
     <Compile Include="App_Start\IOCContainer.cs" />
+    <Compile Include="Hubs\ModuleEditorHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App_Start\Startup.cs" />
   </ItemGroup>

@@ -9,7 +9,7 @@ namespace SOOSite.Data.Repositories
 {
     public class AuthorizedDMRepository: IAuthorizedDMRepository
     {
-        private SOOContext _context;
+        private readonly SOOContext _context;
 
         public AuthorizedDMRepository(SOOContext context)
         {

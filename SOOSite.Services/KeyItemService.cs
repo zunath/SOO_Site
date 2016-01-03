@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using SOOSite.Data.Entities;
 using SOOSite.Interfaces.Repositories;
 using SOOSite.Interfaces.Services;
 using SOOSite.Models.ViewModels;
@@ -11,7 +10,7 @@ namespace SOOSite.Services
 {
     public class KeyItemService: IKeyItemService
     {
-        private IKeyItemRepository _repo;
+        private readonly IKeyItemRepository _repo;
 
         public KeyItemService(IKeyItemRepository repo)
         {
@@ -21,14 +20,14 @@ namespace SOOSite.Services
         public KeyItemVM CreateKeyItemViewModel()
         {
             List<KeyItemCategoryBO> categories = _repo.GetKeyItemCategories()
-                                        .Select(s => KeyItemCategoryBO.FromEntity(s)).ToList();
+                                        .Select(KeyItemCategoryBO.FromEntity).ToList();
 
             KeyItemVM vm = new KeyItemVM
             {
-                KeyItems = _repo.GetKeyItems().Select(s => KeyItemBO.FromEntity(s)),
-                KeyItemCategories = categories
+                KeyItems = _repo.GetKeyItems().Select(KeyItemBO.FromEntity),
+                KeyItemCategories = categories,
+                ActiveKeyItemCategoryID = categories[0].KeyItemCategoryID
             };
-            vm.ActiveKeyItemCategoryID = categories[0].KeyItemCategoryID;
 
             return vm;
         }
@@ -41,8 +40,8 @@ namespace SOOSite.Services
                 keyItems.Select(s => s.ToEntity()));
 
             return new Tuple<IEnumerable<KeyItemCategoryBO>, IEnumerable<KeyItemBO>>(
-                    results.Item1.Select(s => KeyItemCategoryBO.FromEntity(s)),
-                    results.Item2.Select(s => KeyItemBO.FromEntity(s))
+                    results.Item1.Select(KeyItemCategoryBO.FromEntity),
+                    results.Item2.Select(KeyItemBO.FromEntity)
                 );
         }
     }

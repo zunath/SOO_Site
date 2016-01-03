@@ -8,7 +8,7 @@ namespace SOOSite.Hubs
 {
     public class AuthorizedDMHub : Hub
     {
-        private IAuthorizedDMService _authDMService;
+        private readonly IAuthorizedDMService _authDMService;
 
         public AuthorizedDMHub(IAuthorizedDMService authDMService)
         {

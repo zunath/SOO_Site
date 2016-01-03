@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="AuthorizedDMService.cs" />
     <Compile Include="KeyItemService.cs" />
+    <Compile Include="ModuleEditorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

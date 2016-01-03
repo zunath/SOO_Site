@@ -10,7 +10,7 @@ namespace SOOSite.Data.Repositories
 {
     public class KeyItemRepository : IKeyItemRepository
     {
-        private SOOContext _context;
+        private readonly SOOContext _context;
 
         public KeyItemRepository(SOOContext context)
         {
