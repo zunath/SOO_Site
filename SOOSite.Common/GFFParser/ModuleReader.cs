@@ -22,9 +22,8 @@ namespace SOOSite.Common.GFFParser
             _resources = new List<GffResource>();
         }
 
-        public NWModule LoadModule(string filePath)
+        public NWModule LoadModule(FileStream stream)
         {
-            FileStream stream = File.Open(filePath, FileMode.Open);
             _reader = new BinaryReader(stream);
 
             ReadHeader();

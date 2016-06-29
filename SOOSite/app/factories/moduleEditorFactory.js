@@ -30,6 +30,10 @@
                 return deferred.promise;
             }
 
+            factory.openModule = function() {
+                
+            }
+
             return factory;
         }
     ]);
